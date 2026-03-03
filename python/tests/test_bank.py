@@ -1,9 +1,13 @@
 import pytest
 import re
+import os
+import sys
 
-from python.src.bank import Bank
-from python.src.currency import Currency
-from python.src.missing_exchange_rate_error import MissingExchangeRateError
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+
+from src.bank import Bank
+from src.currency import Currency
+from src.missing_exchange_rate_error import MissingExchangeRateError
 
 
 class TestBank:
