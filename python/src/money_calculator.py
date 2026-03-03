@@ -7,9 +7,12 @@ class MoneyCalculator:
         return float(amount + amount2)
     
     @staticmethod
-    def times(amount: float, currency: Currency, value: int) -> float:
+    def multiply(amount: float, currency: Currency, value: int) -> float:
         return amount * value
     
     @staticmethod
     def divide(amount: float, currency: Currency, value: int) -> float:
-        return amount / value
+        try:
+            return amount / value
+        except ValueError as e:
+            raise ValueError("Division par 0 impossible")
