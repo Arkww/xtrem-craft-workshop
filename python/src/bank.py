@@ -16,7 +16,7 @@ class Bank:
         Créer une banque
         """
         bank = Bank({})
-        bank.addEchangeRate(from_currency, to_currency, rate)
+        bank.add_echange_rate(from_currency, to_currency, rate)
 
         return bank
     
