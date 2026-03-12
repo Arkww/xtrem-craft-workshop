@@ -1,15 +1,32 @@
 # Test Driven Development
 
-## 3 faits et une question à propos du Test Driven Development
+## 3 faits et une question à propos du TDD
 
-Individuellement, donnez les 3 idées les plus importantes sur le TDD et une question qui reste en suspend.
+### Les 3 idées les plus importantes
 
-- Essayer d'être extensif et rigoureux sur les textes qu'on écris comme c'est le point principal du code
-- Ne pas avoir peur d'écrire du code "bête" au départ
-- Être imaginatif sur les cas limites à tester
+1. On écrit le test avant le code.
+On crée d'abord un test qui échoue. Ensuite on écrit le code pour le faire passer.
 
-## Mob programming
+2. Les tests remplacent la documentation.
+Les tests montrent ce que le code doit faire. Ils sont toujours à jour.
 
-> Qu'avez-vous appris de l'introduction de nouveaux rôles en mob programming ?
+3. TDD réduit les bugs sur le long terme.
+C'est plus lent au début. Mais le code est plus facile à changer sans tout casser.
 
-    
+---
+
+### Question en suspens
+
+> Est-ce que TDD est utile pour un prototype rapide ou du code qu'on va jeter ?
+
+---
+
+## Mob Programming
+
+> **Qu'avez-vous appris de l'introduction de nouveaux rôles en mob programming ?**
+
+- **Le Driver** tape le code, il ne décide pas seul.
+- **Le Navigator** dit quoi faire, pas comment le faire exactement.
+- **La rotation est obligatoire.** Sinon une seule personne travaille vraiment.
+- Les rôles montrent qui parle trop et qui ne parle pas assez.
+- Expliquer son intention à voix haute est plus difficile qu'on croit.
