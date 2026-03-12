@@ -1240,6 +1240,11 @@ dependencies = [
     { name = "tomli" },
 ]
 
+[package.dev-dependencies]
+dev = [
+    { name = "mutmut" },
+]
+
 [package.metadata]
 requires-dist = [
     { name = "approvaltests", specifier = ">=16.2.2" },
@@ -1259,3 +1264,6 @@ requires-dist = [
     { name = "toml", marker = "python_full_version >= '2.6'", specifier = "~=0.10.0" },
     { name = "tomli", marker = "python_full_version >= '3.8'", specifier = "~=2.0" },
 ]
+
+[package.metadata.requires-dev]
+dev = [{ name = "mutmut", specifier = ">=3.5.0" }]
