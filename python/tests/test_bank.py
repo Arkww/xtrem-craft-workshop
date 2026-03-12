@@ -5,9 +5,9 @@ import sys
 
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from src.bank import Bank
-from src.currency import Currency
-from src.missing_exchange_rate_error import MissingExchangeRateError
+from xterm_craft_workshop.bank import Bank
+from xterm_craft_workshop.currency import Currency
+from xterm_craft_workshop.missing_exchange_rate_error import MissingExchangeRateError
 
 
 class TestBank:
