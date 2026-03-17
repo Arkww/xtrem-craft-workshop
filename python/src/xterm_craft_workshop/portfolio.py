@@ -14,16 +14,6 @@ class Portfolio:
     def __init__(self):
         self.monies: List[Money] = []
 
-    def evaluate(self, bank: Bank, currency: Currency) -> float:
-        """
-        Évalue le portefeuille dans la monnaie donnée en paramètre et retourne un float
-        """
-        total = Money(0.0, currency)
-        for money in self.monies:
-            converted = bank.convert(money, currency)
-            total = total + converted
-        return total.amount
-
     def evaluate_money(self, bank: Bank, currency: Currency) -> Money:
         """
         Évalue le portefeuille dans la monnaie donnée en paramètre et renvoie un objet Money
@@ -33,12 +23,6 @@ class Portfolio:
             converted = bank.convert(money, currency)
             total = total + converted
         return total
-
-    def add(self, amount: float, currency: Currency) -> None:
-        """
-        Ajoute une somme d'argent dans une monnaie donnée au portefeuille
-        """
-        self.monies.append(Money(amount, currency))
 
     def add_money(self, money: Money) -> None:
         """

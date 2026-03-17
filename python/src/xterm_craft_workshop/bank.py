@@ -24,25 +24,17 @@ class Bank:
         """
         self._exchange_rate[f'{from_currency.value}->{to_currency.value}'] = rate
 
-    def convert_currency(self, amount: float, from_currency: Currency, to_currency: Currency) -> float:
-        """
-        Convertir un montant d'une monnaie à une autre
-        """
-        if from_currency == to_currency:
-            return amount
-
-        key = f'{from_currency.value}->{to_currency.value}'
-        if key not in self._exchange_rate:
-            raise MissingExchangeRateError(from_currency, to_currency)
-
-        return amount * self._exchange_rate[key]
-
     def convert(self, money: Money, to_currency: Currency) -> Money:
         """
         Convertir un objet Money dans une autre monnaie
         """
         if money.currency == to_currency:
             return Money(money.amount, to_currency)
+        
+        key = f'{money.currency.value}->{to_currency.value}'
+        if key not in self._exchange_rate:
+            raise MissingExchangeRateError(money.currency, to_currency)
 
-        converted_amount = self.convert_currency(money.amount, money.currency, to_currency)
+        converted_amount = money.amount * self._exchange_rate[key]
+
         return Money(converted_amount, to_currency)
