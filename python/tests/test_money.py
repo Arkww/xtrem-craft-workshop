@@ -5,138 +5,132 @@ from xterm_craft_workshop.money import Money
 
 
 class TestMoney:
-    def test_add_in_usd_returns_value(self):
-        # ARRANGE
-        money1 = Money(5, Currency.USD)
-        money2 = Money(10, Currency.USD)
-        expected = Money(15, Currency.USD)
-
-        # ACT
-        result = money1 + money2
-
-        # ASSERT
-        assert isinstance(result, Money)
-        assert result == expected
-
-    def test_add_number_to_money(self):
-        # ARRANGE
-        money = Money(5, Currency.USD)
-        expected = Money(15, Currency.USD)
-
-        # ACT
-        result = money + 10
-
-        # ASSERT
-        assert result == expected
-
-    def test_radd_number_to_money(self):
-        # ARRANGE
-        money = Money(5, Currency.USD)
-        expected = Money(15, Currency.USD)
-
-        # ACT
-        result = 10 + money
-
-        # ASSERT
-        assert result == expected
-
-    def test_multiply_in_euros_returns_positive_number(self):
-        # ARRANGE
-        money = Money(10, Currency.EUR)
-        expected = Money(20, Currency.EUR)
-
-        # ACT
-        result = money * 2
-
-        # ASSERT
-        assert result == expected
-
-    def test_rmultiply_in_euros_returns_positive_number(self):
-        # ARRANGE
-        money = Money(10, Currency.EUR)
-        expected = Money(20, Currency.EUR)
-
-        # ACT
-        result = 2 * money
-
-        # ASSERT
-        assert result == expected
-
-    def test_divide_in_korean_won_returns_float(self):
-        # ARRANGE
-        money = Money(4002, Currency.KRW)
-        expected = Money(1000.5, Currency.KRW)
-
-        # ACT
-        result = money / 4
-
-        # ASSERT
-        assert result == expected
-
     def test_create_money(self):
-        amount = 10
-        currency = Currency.EUR
+        money = Money(10, Currency.EUR)
+        assert money.amount == 10
+        assert money.currency == Currency.EUR
 
-        monnaie = Money(amount, currency)
-        assert monnaie.amount == amount
-        assert monnaie.currency == currency
+    def test_create_money_negative_amount_raises(self):
+        with pytest.raises(ValueError) as exc:
+            Money(-10, Currency.EUR)
+        assert str(exc.value) == "Amount cannot be negative"
 
-    def test_add_money(self):
-        base_amount = 10
-        currency = Currency.EUR
-        other_amount = 5
-        expected_amount = 15
+    def test_add_money_same_currency(self):
+        money1 = Money(10, Currency.EUR)
+        money2 = Money(5, Currency.EUR)
+        result = money1 + money2
+        assert result == Money(15, Currency.EUR)
 
-        monnaie = Money(base_amount, currency)
-        other = Money(other_amount, currency)
-        result = monnaie + other
-        assert result.amount == expected_amount
-        assert result.currency == currency
+    def test_add_money_different_currencies_raises(self):
+        eur = Money(10, Currency.EUR)
+        usd = Money(5, Currency.USD)
+        with pytest.raises(ValueError) as exc:
+            eur + usd
+        assert str(exc.value) == "Cannot add money with different currencies"
 
-    def test_times_money(self):
-        base_amount = 10
-        currency = Currency.EUR
-        factor = 3
-        expected_amount = 30
+    def test_add_number(self):
+        money = Money(10, Currency.EUR)
+        result = money + 5
+        assert result == Money(15, Currency.EUR)
 
-        monnaie = Money(base_amount, currency)
-        result = monnaie * factor
-        assert result.amount == expected_amount
-        assert result.currency == currency
+    def test_add_negative_number_raises(self):
+        money = Money(10, Currency.EUR)
+        with pytest.raises(ValueError) as exc:
+            money + (-5)
+        assert str(exc.value) == "Amount cannot be negative"
 
-    def test_wrong_money(self):
-        base_amount = 10
-        currency = Currency.EUR
-        usd_monnaie = Money(base_amount, Currency.USD)
-        eur = Money(base_amount, currency)
+    def test_add_float(self):
+        money = Money(10, Currency.EUR)
+        result = money + 5.5
+        assert result == Money(15.5, Currency.EUR)
 
-        with pytest.raises(ValueError) as error:
-            result = eur + usd_monnaie
-        assert str(error.value) == "Cannot add money with different currencies"
+    def test_radd_number(self):
+        money = Money(10, Currency.EUR)
+        result = 5 + money
+        assert result == Money(15, Currency.EUR)
 
-    def test_negative_money(self):
-        base_amount = 10
-        currency = Currency.EUR
-        eur = Money(base_amount, currency)
+    def test_add_unsupported_type_returns_not_implemented(self):
+        money = Money(10, Currency.EUR)
+        assert money.__add__("10") is NotImplemented
+        assert money.__add__([1, 2]) is NotImplemented
+        assert money.__add__({"a": 1}) is NotImplemented
+        assert money.__add__(None) is NotImplemented
 
-        with pytest.raises(ValueError) as error:
-            result = eur + (-1)
-        assert str(error.value) == "Amount cannot be negative"
+    def test_mul_by_factor(self):
+        money = Money(10, Currency.EUR)
+        result = money * 3
+        assert result == Money(30, Currency.EUR)
 
-    def test_negative_times(self):
-        base_amount = 10
-        currency = Currency.EUR
-        eur = Money(base_amount, currency)
+    def test_mul_by_negative_factor_raises(self):
+        money = Money(10, Currency.EUR)
+        with pytest.raises(ValueError) as exc:
+            money * (-2)
+        assert str(exc.value) == "Factor cannot be negative"
 
-        with pytest.raises(ValueError) as error:
-            result = eur * (-1)
-        assert str(error.value) == "Factor cannot be negative"
+    def test_mul_by_float(self):
+        money = Money(10, Currency.EUR)
+        result = money * 2.5
+        assert result == Money(25, Currency.EUR)
 
-    def test_negative_division(self):
-        base_amount = 10
-        currency = Currency.EUR
-        eur = Money(base_amount, currency)
+    def test_rmul_factor(self):
+        money = Money(10, Currency.EUR)
+        result = 3 * money
+        assert result == Money(30, Currency.EUR)
 
-        with pytest.raises(ValueError) as error:
-            result = eur / (-1)
-        assert str(error.value) == "Divisor must be positive"
+    def test_mul_unsupported_type_returns_not_implemented(self):
+        money = Money(10, Currency.EUR)
+        assert money.__mul__("3") is NotImplemented
+
+    def test_truediv_by_divisor(self):
+        money = Money(10, Currency.EUR)
+        result = money / 2
+        assert result == Money(5, Currency.EUR)
+
+    def test_truediv_by_float(self):
+        money = Money(10, Currency.EUR)
+        result = money / 2.5
+        assert result == Money(4, Currency.EUR)
+
+    def test_truediv_by_zero_raises(self):
+        money = Money(10, Currency.EUR)
+        with pytest.raises(ValueError) as exc:
+            money / 0
+        assert str(exc.value) == "Divisor must be positive"
+
+    def test_truediv_by_negative_raises(self):
+        money = Money(10, Currency.EUR)
+        with pytest.raises(ValueError) as exc:
+            money / (-2)
+        assert str(exc.value) == "Divisor must be positive"
+
+    def test_truediv_unsupported_type_returns_not_implemented(self):
+        money = Money(10, Currency.EUR)
+        assert money.__truediv__("2") is NotImplemented
+
+    def test_equality_same(self):
+        money1 = Money(10, Currency.EUR)
+        money2 = Money(10, Currency.EUR)
+        assert money1 == money2
+
+    def test_equality_different_amount(self):
+        money1 = Money(10, Currency.EUR)
+        money2 = Money(20, Currency.EUR)
+        assert money1 != money2
+
+    def test_equality_different_currency(self):
+        money1 = Money(10, Currency.EUR)
+        money2 = Money(10, Currency.USD)
+        assert money1 != money2
+
+    def test_equality_with_non_money(self):
+        money = Money(10, Currency.EUR)
+        assert money != 10
+        assert money != "10 EUR"
+
+    def test_str_representation(self):
+        money = Money(10.5, Currency.EUR)
+        assert str(money) == "10.5 EUR"
+
+    def test_repr_representation(self):
+        money = Money(10.5, Currency.EUR)
+        assert repr(money) == "Money(10.5, Currency.EUR)"

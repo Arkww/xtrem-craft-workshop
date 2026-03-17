@@ -38,11 +38,11 @@ class MoneyCalculator:
         return float(amount + amount2)
     
     @staticmethod
-    def multiply(amount: float, currency: Currency, value: int) -> float:
+    def multiply(amount: float, currency: Currency, value: float) -> float:
         return amount * value
     
     @staticmethod
-    def divide(amount: float, currency: Currency, value: int) -> float:
+    def divide(amount: float, currency: Currency, value: float) -> float:
         try:
             return amount / value
         except ValueError as e:
