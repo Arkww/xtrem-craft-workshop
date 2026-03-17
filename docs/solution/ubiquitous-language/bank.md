@@ -1,21 +1,26 @@
 # Concept
 
-> definition
-
-Permet de faire des échanges de monnaies entre plusieurs types de monnaies
+Service de conversion monetaire base sur des taux de change entre paires de devises.
 
 ## Properties
 
-- exchange_rate : taux d'échanges d'une monnaie à une autre
+- `_exchange_rate: Dict[str, float]` : dictionnaire des taux, indexe par cle `FROM->TO` (ex: `USD->EUR`).
 
 ## Responsibilities
 
-- Transformer une valeur dans une monnaies à son équivalent dans une autre monnaie
+- Enregistrer un taux de change entre deux devises (`add_exchange_rate`).
+- Creer une banque preconfiguree avec un taux initial (`create`).
+- Convertir un `Money` vers une devise cible (`convert`).
+- Lever une erreur explicite si aucun taux n'existe pour la conversion demandee.
 
 ## Invariants
 
-- 
+- Si la devise source et la devise cible sont identiques, le montant est conserve.
+- Une conversion entre devises differentes exige la presence d'un taux `source->cible`.
+- En absence de taux, une `MissingExchangeRateError` est levee.
 
 ## Collaborators
 
-- 
+- `Money`
+- `Currency`
+- `MissingExchangeRateError`
