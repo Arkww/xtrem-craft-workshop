@@ -1,6 +1,7 @@
 from typing import Dict
 from xterm_craft_workshop.currency import Currency
 from xterm_craft_workshop.missing_exchange_rate_error import MissingExchangeRateError
+from xterm_craft_workshop.money import Money
 
 
 class Bank:
@@ -36,3 +37,11 @@ class Bank:
         if from_currency.value == to_currency.value:
             return amount
         return amount * self._exchange_rate[f'{from_currency.value}->{to_currency.value}']
+    
+    def convert(self, money: Money, to_currency: Currency) -> Money:
+        """
+        Convertir un objet Money dans une autre monnaie
+        Si la banque ne propose pas la convertion donné en paramètre, renvoie une erreur MissingExchangeRateError
+        """
+        converted_amount = self.convert_currency(money.amount, money.currency, to_currency)
+        return Money(converted_amount, to_currency)
