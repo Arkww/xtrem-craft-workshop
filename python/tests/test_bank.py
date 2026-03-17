@@ -3,47 +3,66 @@ import pytest
 from xterm_craft_workshop.bank import Bank
 from xterm_craft_workshop.currency import Currency
 from xterm_craft_workshop.missing_exchange_rate_error import MissingExchangeRateError
+from xterm_craft_workshop.money import Money
 
 
 class TestBank:
     def test_convert_euro_to_usd_returns_float(self):
-        #ARRANGE
+        # ARRANGE
         bank = Bank.create(Currency.EUR, Currency.USD, 1.2)
         expected_result = 12.0
-        #ACT
+
+        # ACT
         result = bank.convert_currency(10.0, Currency.EUR, Currency.USD)
-        #ASSERT
+
+        # ASSERT
         assert isinstance(result, float)
         assert result == expected_result
 
+    def test_convert_money_euro_to_usd(self):
+        # ARRANGE
+        bank = Bank.create(Currency.EUR, Currency.USD, 1.2)
+        money = Money(10.0, Currency.EUR)
+        expected = Money(12.0, Currency.USD)
+
+        # ACT
+        result = bank.convert(money, Currency.USD)
+
+        # ASSERT
+        assert isinstance(result, Money)
+        assert result == expected
+
     def test_convert_euro_to_usd_returns_same_value(self):
-        #ARRANGE
+        # ARRANGE
         bank = Bank.create(Currency.EUR, Currency.USD, 1.2)
         expected_result = 10.0
-        #ACT
+
+        # ACT
         result = bank.convert_currency(10.0, Currency.EUR, Currency.EUR)
-        #ASSERT
+
+        # ASSERT
         assert isinstance(result, float)
         assert result == expected_result
 
     def test_convert_with_missing_exchange_rate_throws_exception(self):
-
-        #ARRANCE
+        # ARRANGE
         bank = Bank.create(Currency.EUR, Currency.USD, 1.2)
-        #ACT
+
+        # ACT
         with pytest.raises(MissingExchangeRateError) as error:
             bank.convert_currency(10.0, Currency.EUR, Currency.KRW)
-        #ASSERT
+
+        # ASSERT
         assert str(error.value) == "La banque ne propose pas cet échange : EUR->KRW"
 
     def test_convert_with_different_exchange_rate_returns_different_floats(self):
+        # ARRANGE
+        bank = Bank.create(Currency.EUR, Currency.USD, 1.2)
+        bank2 = Bank.create(Currency.EUR, Currency.USD, 1.2)
 
-        #ARRANGE
-        bank:Bank = Bank.create(Currency.EUR, Currency.USD, 1.2)
-        bank2:Bank = Bank.create(Currency.EUR, Currency.USD, 1.2)
-        #ACT
-        bank2.add_echange_rate(Currency.EUR, Currency.USD, 1.3)
+        # ACT
+        bank2.add_exchange_rate(Currency.EUR, Currency.USD, 1.3)
 
-        #ASSERT
+        # ASSERT
         assert bank.convert_currency(10, Currency.EUR, Currency.USD) == 12
         assert bank2.convert_currency(10, Currency.EUR, Currency.USD) == 13
