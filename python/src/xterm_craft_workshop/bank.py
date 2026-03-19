@@ -9,20 +9,17 @@ class Bank:
     def __init__(self, exchange_rate: Dict[str, float] = None):
         self._exchange_rate = exchange_rate if exchange_rate is not None else {}
 
-    @staticmethod
-    def create(from_currency: Currency, to_currency: Currency, rate: float) -> "Bank":
-        """
-        Créer une banque avec un taux d'échange initial
-        """
-        bank = Bank()
-        bank.add_exchange_rate(from_currency, to_currency, rate)
-        return bank
-
     def add_exchange_rate(self, from_currency: Currency, to_currency: Currency, rate: float) -> None:
         """
-        Ajouter un taux d'échange
+        Ajouter un taux d'échange (méthode métier)
         """
         self._exchange_rate[f'{from_currency.value}->{to_currency.value}'] = rate
+
+    def remove_exchange_rate(self, from_currency: Currency, to_currency: Currency) -> None:
+        """
+        Supprimer un taux d'échange (méthode métier)
+        """
+        del self._exchange_rate[f'{from_currency.value}->{to_currency.value}']
 
     def convert(self, money: Money, to_currency: Currency) -> Money:
         """

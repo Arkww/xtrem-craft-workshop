@@ -5,13 +5,14 @@ from xterm_craft_workshop.bank import Bank
 from xterm_craft_workshop.currency import Currency
 from xterm_craft_workshop.portfolio import Portfolio
 from xterm_craft_workshop.money import Money
+from tests.bank_builder import BankBuilder
 
 
 class TestPortfolio:
     def test_create_empty_portfolio(self):
         # ARRANGE
         portfolio = Portfolio()
-        bank = Bank()
+        bank = BankBuilder().build()
         
         # ACT
         result = portfolio.evaluate_money(bank, Currency.EUR)
@@ -35,7 +36,7 @@ class TestPortfolio:
         # ARRANGE
         portfolio = Portfolio()
         portfolio.add_money(Money(10.0, Currency.EUR))
-        bank = Bank()
+        bank = BankBuilder().build()
         
         # ACT
         result = portfolio.evaluate_money(bank, Currency.EUR)
@@ -47,7 +48,7 @@ class TestPortfolio:
         # ARRANGE
         portfolio = Portfolio()
         portfolio.add_money(Money(10.0, Currency.EUR))
-        bank = Bank.create(Currency.EUR, Currency.USD, 1.2)
+        bank = BankBuilder().with_rate(Currency.EUR, Currency.USD, 1.2).build()
         
         # ACT
         result = portfolio.evaluate_money(bank, Currency.USD)
@@ -61,7 +62,7 @@ class TestPortfolio:
         portfolio.add_money(Money(10.0, Currency.EUR))
         portfolio.add_money(Money(20.0, Currency.EUR))
         portfolio.add_money(Money(5.0, Currency.EUR))
-        bank = Bank()
+        bank = BankBuilder().build()
         
         # ACT
         result = portfolio.evaluate_money(bank, Currency.EUR)
@@ -74,7 +75,7 @@ class TestPortfolio:
         portfolio = Portfolio()
         portfolio.add_money(Money(10.0, Currency.USD))
         portfolio.add_money(Money(20.0, Currency.EUR))
-        bank = Bank.create(Currency.USD, Currency.EUR, 0.8)
+        bank = BankBuilder().with_rate(Currency.USD, Currency.EUR, 0.8).build()
         
         # ACT
         result = portfolio.evaluate_money(bank, Currency.EUR)
@@ -89,8 +90,10 @@ class TestPortfolio:
         portfolio.add_money(Money(20.0, Currency.EUR))
         portfolio.add_money(Money(1000.0, Currency.KRW))
         
-        bank = Bank.create(Currency.USD, Currency.EUR, 0.8)
-        bank.add_exchange_rate(Currency.KRW, Currency.EUR, 0.00077)
+        bank = BankBuilder()\
+            .with_rate(Currency.USD, Currency.EUR, 0.8)\
+            .with_rate(Currency.KRW, Currency.EUR, 0.00077)\
+            .build()
         
         # ACT
         result = portfolio.evaluate_money(bank, Currency.EUR)
@@ -104,7 +107,7 @@ class TestPortfolio:
         portfolio = Portfolio()
         portfolio.add_money(Money(10.0, Currency.EUR))
         portfolio.add_money(Money(10.0, Currency.KRW))
-        bank = Bank.create(Currency.EUR, Currency.USD, 1.2)
+        bank = BankBuilder().with_rate(Currency.EUR, Currency.USD, 1.2).build()
         
         # ACT & ASSERT
         with pytest.raises(MissingExchangeRateError) as exc:
@@ -117,7 +120,7 @@ class TestPortfolio:
         portfolio.add_money(Money(10.0, Currency.EUR))
         portfolio.add_money(Money(10.0, Currency.USD))
         
-        bank = Bank.create(Currency.KRW, Currency.KRW, 1.0)
+        bank = BankBuilder().with_rate(Currency.KRW, Currency.KRW, 1.0).build()
         
         # ACT & ASSERT
         with pytest.raises(MissingExchangeRateError) as exc:
@@ -131,8 +134,10 @@ class TestPortfolio:
         portfolio.add_money(Money(10.0, Currency.USD))
         portfolio.add_money(Money(10.0, Currency.KRW))
         
-        bank = Bank.create(Currency.EUR, Currency.USD, 1.2)
-        bank.add_exchange_rate(Currency.EUR, Currency.KRW, 10.0)
+        bank = BankBuilder()\
+            .with_rate(Currency.EUR, Currency.USD, 1.2)\
+            .with_rate(Currency.EUR, Currency.KRW, 10.0)\
+            .build()
         
         # ACT & ASSERT
         with pytest.raises(MissingExchangeRateError) as exc:

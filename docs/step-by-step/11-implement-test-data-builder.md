@@ -18,3 +18,4 @@ de celle-ci de l'implémentation initiale, offrant un point de refactoring uniqu
 
 - Mettre en application le pattern *Test Data Builder* pour obtenir une banque sur un premier test
 - Refactorer la suite de tests en utilisant le builder ainsi créé.
+

@@ -4,12 +4,13 @@ from xterm_craft_workshop.bank import Bank
 from xterm_craft_workshop.currency import Currency
 from xterm_craft_workshop.missing_exchange_rate_error import MissingExchangeRateError
 from xterm_craft_workshop.money import Money
+from tests.bank_builder import BankBuilder
 
 
 class TestBank:
     def test_create_bank_with_exchange_rate(self):
         # ARRANGE
-        bank = Bank.create(Currency.EUR, Currency.USD, 1.2)
+        bank = BankBuilder().with_rate(Currency.EUR, Currency.USD, 1.2).build()
         money = Money(10.0, Currency.EUR)
         
         # ACT
@@ -20,7 +21,7 @@ class TestBank:
 
     def test_convert_same_currency(self):
         # ARRANGE
-        bank = Bank.create(Currency.EUR, Currency.USD, 1.2)
+        bank = BankBuilder().with_rate(Currency.EUR, Currency.USD, 1.2).build()
         money = Money(10.0, Currency.EUR)
         
         # ACT
@@ -31,8 +32,8 @@ class TestBank:
 
     def test_convert_with_different_rate(self):
         # ARRANGE
-        bank1 = Bank.create(Currency.EUR, Currency.USD, 1.2)
-        bank2 = Bank.create(Currency.EUR, Currency.USD, 1.3)
+        bank1 = BankBuilder().with_rate(Currency.EUR, Currency.USD, 1.2).build()
+        bank2 = BankBuilder().with_rate(Currency.EUR, Currency.USD, 1.3).build()
         money = Money(10.0, Currency.EUR)
         
         # ACT
@@ -45,7 +46,7 @@ class TestBank:
 
     def test_add_exchange_rate(self):
         # ARRANGE
-        bank = Bank()
+        bank = BankBuilder().build()
         money = Money(10.0, Currency.EUR)
         
         # ACT
@@ -57,7 +58,7 @@ class TestBank:
 
     def test_add_multiple_exchange_rates(self):
         # ARRANGE
-        bank = Bank()
+        bank = BankBuilder().build()
         eur_money = Money(10.0, Currency.EUR)
         usd_money = Money(10.0, Currency.USD)
         
@@ -73,7 +74,7 @@ class TestBank:
 
     def test_convert_with_missing_rate_raises(self):
         # ARRANGE
-        bank = Bank.create(Currency.EUR, Currency.USD, 1.2)
+        bank = BankBuilder().with_rate(Currency.EUR, Currency.USD, 1.2).build()
         money = Money(10.0, Currency.EUR)
         
         # ACT & ASSERT
@@ -83,7 +84,7 @@ class TestBank:
 
     def test_convert_from_bank_without_rates_raises(self):
         # ARRANGE
-        bank = Bank()
+        bank = BankBuilder().build()
         money = Money(10.0, Currency.EUR)
         
         # ACT & ASSERT
@@ -100,7 +101,7 @@ class TestBank:
 
     def test_convert_with_precision(self):
         # ARRANGE
-        bank = Bank.create(Currency.EUR, Currency.USD, 1.23456789)
+        bank = BankBuilder().with_rate(Currency.EUR, Currency.USD, 1.23456789).build()
         money = Money(10.12345678, Currency.EUR)
         
         # ACT
