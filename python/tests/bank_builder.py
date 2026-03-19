@@ -17,4 +17,4 @@ class BankBuilder:
         return self
 
     def build(self) -> Bank:
-        return Bank(self._exchange_rates.copy())
+        return Bank(self._pivot_currency, self._exchange_rates.copy())
