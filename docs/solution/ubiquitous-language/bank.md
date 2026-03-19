@@ -1,6 +1,6 @@
 # Concept
 
-Service de conversion monetaire base sur des taux de change entre paires de devises.
+Service de conversion monetaire base sur des taux de change entre paires de devises basé sur une devise pivot.
 
 ## Properties
 
@@ -8,7 +8,8 @@ Service de conversion monetaire base sur des taux de change entre paires de devi
 
 ## Responsibilities
 
-- Enregistrer un taux de change entre deux devises (`add_exchange_rate`).
+- Définir une devise pivot
+- Enregistrer un taux de change avec une devise (`add_exchange_rate`).
 - Creer une banque preconfiguree avec un taux initial (`create`).
 - Convertir un `Money` vers une devise cible (`convert`).
 - Lever une erreur explicite si aucun taux n'existe pour la conversion demandee.
@@ -16,7 +17,7 @@ Service de conversion monetaire base sur des taux de change entre paires de devi
 ## Invariants
 
 - Si la devise source et la devise cible sont identiques, le montant est conserve.
-- Une conversion entre devises differentes exige la presence d'un taux `source->cible`.
+- Une conversion entre devises differentes exige la presence d'un taux `devise->cible`.
 - En absence de taux, une `MissingExchangeRateError` est levee.
 
 ## Collaborators
