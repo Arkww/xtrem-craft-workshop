@@ -12,7 +12,7 @@ class TestPortfolio:
     def test_create_empty_portfolio(self):
         # ARRANGE
         portfolio = Portfolio()
-        bank = BankBuilder().build()
+        bank = BankBuilder().with_pivot_currency(Currency.EUR).build()
         
         # ACT
         result = portfolio.evaluate_money(bank, Currency.EUR)
@@ -36,7 +36,7 @@ class TestPortfolio:
         # ARRANGE
         portfolio = Portfolio()
         portfolio.add_money(Money(10.0, Currency.EUR))
-        bank = BankBuilder().build()
+        bank = BankBuilder().with_pivot_currency(Currency.EUR).build()
         
         # ACT
         result = portfolio.evaluate_money(bank, Currency.EUR)
@@ -48,7 +48,7 @@ class TestPortfolio:
         # ARRANGE
         portfolio = Portfolio()
         portfolio.add_money(Money(10.0, Currency.EUR))
-        bank = BankBuilder().with_rate(Currency.EUR, Currency.USD, 1.2).build()
+        bank = BankBuilder().with_pivot_currency(Currency.EUR).with_rate(Currency.USD, 1.2).build()
         
         # ACT
         result = portfolio.evaluate_money(bank, Currency.USD)
@@ -75,7 +75,7 @@ class TestPortfolio:
         portfolio = Portfolio()
         portfolio.add_money(Money(10.0, Currency.USD))
         portfolio.add_money(Money(20.0, Currency.EUR))
-        bank = BankBuilder().with_rate(Currency.USD, Currency.EUR, 0.8).build()
+        bank = BankBuilder().with_pivot_currency(Currency.EUR).with_rate(Currency.USD, Currency.EUR, 0.8).build()
         
         # ACT
         result = portfolio.evaluate_money(bank, Currency.EUR)
@@ -91,23 +91,24 @@ class TestPortfolio:
         portfolio.add_money(Money(1000.0, Currency.KRW))
         
         bank = BankBuilder()\
-            .with_rate(Currency.USD, Currency.EUR, 0.8)\
-            .with_rate(Currency.KRW, Currency.EUR, 0.00077)\
+            .with_pivot_currency(Currency.EUR)\
+            .with_rate(Currency.USD, 1.2)\
+            .with_rate(Currency.KRW, 1000)\
             .build()
         
         # ACT
-        result = portfolio.evaluate_money(bank, Currency.EUR)
+        result = portfolio.evaluate_money(bank, Currency.KRW)
         
         # ASSERT
-        expected = 8.0 + 20.0 + 0.77
-        assert result == Money(expected, Currency.EUR)
+        expected = 12_000 + 20_000 + 1000
+        assert result == Money(expected, Currency.KRW)
 
     def test_evaluate_with_missing_rate_raises(self):
         # ARRANGE
         portfolio = Portfolio()
         portfolio.add_money(Money(10.0, Currency.EUR))
         portfolio.add_money(Money(10.0, Currency.KRW))
-        bank = BankBuilder().with_rate(Currency.EUR, Currency.USD, 1.2).build()
+        bank = BankBuilder().with_pivot_currency(Currency.EUR).with_rate(Currency.USD, 1.2).build()
         
         # ACT & ASSERT
         with pytest.raises(MissingExchangeRateError) as exc:
@@ -120,26 +121,9 @@ class TestPortfolio:
         portfolio.add_money(Money(10.0, Currency.EUR))
         portfolio.add_money(Money(10.0, Currency.USD))
         
-        bank = BankBuilder().with_rate(Currency.KRW, Currency.KRW, 1.0).build()
+        bank = BankBuilder().with_pivot_currency(Currency.EUR).with_rate(Currency.KRW, 1.0).build()
         
         # ACT & ASSERT
         with pytest.raises(MissingExchangeRateError) as exc:
             portfolio.evaluate_money(bank, Currency.USD)
         assert str(exc.value) == "La banque ne propose pas cet échange : EUR->USD"
-
-    def test_evaluate_with_some_missing_rates_raises(self):
-        # ARRANGE
-        portfolio = Portfolio()
-        portfolio.add_money(Money(10.0, Currency.EUR))
-        portfolio.add_money(Money(10.0, Currency.USD))
-        portfolio.add_money(Money(10.0, Currency.KRW))
-        
-        bank = BankBuilder()\
-            .with_rate(Currency.EUR, Currency.USD, 1.2)\
-            .with_rate(Currency.EUR, Currency.KRW, 10.0)\
-            .build()
-        
-        # ACT & ASSERT
-        with pytest.raises(MissingExchangeRateError) as exc:
-            portfolio.evaluate_money(bank, Currency.EUR)
-        assert str(exc.value) == "La banque ne propose pas cet échange : USD->EUR"

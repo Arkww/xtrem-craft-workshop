@@ -58,7 +58,7 @@ class TestBank:
 
     def test_add_multiple_exchange_rates(self):
         # ARRANGE
-        bank = BankBuilder().build()
+        bank = BankBuilder().with_pivot_currency(Currency.EUR).build()
         eur_money = Money(10.0, Currency.EUR)
         usd_money = Money(10.0, Currency.USD)
         
@@ -74,7 +74,7 @@ class TestBank:
 
     def test_convert_with_missing_rate_raises(self):
         # ARRANGE
-        bank = BankBuilder().with_rate(Currency.EUR, Currency.USD, 1.2).build()
+        bank = BankBuilder().with_pivot_currency(Currency.EUR).with_rate(Currency.USD, 1.2).build()
         money = Money(10.0, Currency.EUR)
         
         # ACT & ASSERT
@@ -84,7 +84,7 @@ class TestBank:
 
     def test_convert_from_bank_without_rates_raises(self):
         # ARRANGE
-        bank = BankBuilder().build()
+        bank = BankBuilder().with_pivot_currency(Currency.EUR).build()
         money = Money(10.0, Currency.EUR)
         
         # ACT & ASSERT
@@ -101,7 +101,7 @@ class TestBank:
 
     def test_convert_with_precision(self):
         # ARRANGE
-        bank = BankBuilder().with_rate(Currency.EUR, Currency.USD, 1.23456789).build()
+        bank = BankBuilder().with_pivot_currency(Currency.EUR).with_rate(Currency.USD, 1.23456789).build()
         money = Money(10.12345678, Currency.EUR)
         
         # ACT
