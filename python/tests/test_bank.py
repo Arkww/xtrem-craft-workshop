@@ -110,3 +110,49 @@ class TestBank:
         expected = 10.12345678 * 1.23456789
         assert abs(result.amount - expected) < 1e-2
         assert result.currency == Currency.USD
+
+    def test_exchange_to_pivot_currency(self):
+        # ARRANGE
+        bank = BankBuilder().with_pivot_currency(Currency.EUR).build()
+        
+        # ACT & ASSERT
+        with pytest.raises(AssertionError) as exc:
+            bank.add_exchange_rate(Currency.EUR, 1)
+        assert str(exc.value) == "Le to_currency doit être différent du pivot_currency"
+        
+    def test_negative_exchange_rate(self):
+        # ARRANGE
+        bank = BankBuilder().with_pivot_currency(Currency.EUR).build()
+        
+        # ACT & ASSERT
+        with pytest.raises(AssertionError) as exc:
+            bank.add_exchange_rate(Currency.USD, -1)
+        assert str(exc.value) == "Le taux d'échange doit être positif"
+        
+    def test_zero_exchange_rate(self):
+        # ARRANGE
+        bank = BankBuilder().with_pivot_currency(Currency.EUR).build()
+        
+        # ACT & ASSERT
+        with pytest.raises(AssertionError) as exc:
+            bank.add_exchange_rate(Currency.USD, 0)
+        assert str(exc.value) == "Le taux d'échange doit être positif"
+        
+    def test_pivot_not_none(self):
+        # ARRANGE & ACT & ASSERT
+        with pytest.raises(AssertionError) as exc:
+            Bank(None)
+        assert str(exc.value) == "Le pivot currency ne peut pas être None"
+        
+    def test_rounding_on_convert(self):
+        # ARRANGE
+        bank = BankBuilder().with_pivot_currency(Currency.EUR).with_rate(Currency.USD, 1.234).build()
+        money = Money(10.0, Currency.EUR)
+        
+        # ACT
+        result = bank.convert(money, Currency.USD)
+        
+        # ASSERT
+        assert str(result.amount) == "12.34"
+        
+        
