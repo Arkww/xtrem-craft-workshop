@@ -17,14 +17,14 @@ class Bank:
         """
         assert rate > 0, "Le taux d'échange doit être positif"
         assert to_currency != self._pivot_currency, "Le from_currency doit être différent du pivot_currency"
-        assert to_currency.value not in self._exchange_rate.keys(), "Le taux d'échange existe déjà"
-        self._exchange_rate[to_currency.value] = rate
+        assert to_currency not in self._exchange_rate.keys(), "Le taux d'échange existe déjà"
+        self._exchange_rate[to_currency] = rate
 
     def remove_exchange_rate(self, to_currency: Currency) -> None:
         """
         Supprimer un taux d'échange (méthode métier)
         """
-        del self._exchange_rate[to_currency.value]
+        del self._exchange_rate[to_currency]
 
     def convert(self, money: Money, to_currency: Currency) -> Money:
         """
@@ -33,11 +33,11 @@ class Bank:
         if money.currency == to_currency:
             return Money(money.amount, to_currency)
         
-        if to_currency.value in self._exchange_rate.keys():
-            converted_amount = round(money.amount * self._exchange_rate[to_currency.value], 2)
+        if to_currency in self._exchange_rate.keys():
+            converted_amount = round(money.amount * self._exchange_rate[to_currency], 2)
 
-        elif to_currency.value == self._pivot_currency.value and money.currency.value in self._exchange_rate.keys():
-            converted_amount = round(money.amount / self._exchange_rate[money.currency.value], 2)
+        elif to_currency == self._pivot_currency and money.currency in self._exchange_rate.keys():
+            converted_amount = round(money.amount / self._exchange_rate[money.currency], 2)
 
         else:
             raise MissingExchangeRateError(money.currency, to_currency)
