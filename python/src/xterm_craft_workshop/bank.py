@@ -39,6 +39,9 @@ class Bank:
         elif to_currency == self._pivot_currency and money.currency in self._exchange_rate.keys():
             converted_amount = round(money.amount / self._exchange_rate[money.currency], 2)
 
+        elif money.currency in self._exchange_rate.keys() and to_currency in self._exchange_rate.keys():
+            converted_amount = round(money.amount / self._exchange_rate[money.currency] * self._exchange_rate[to_currency], 2)
+
         else:
             raise MissingExchangeRateError(money.currency, to_currency)
 

@@ -4,124 +4,155 @@ from xterm_craft_workshop.bank import Bank
 from xterm_craft_workshop.currency import Currency
 from xterm_craft_workshop.missing_exchange_rate_error import MissingExchangeRateError
 from xterm_craft_workshop.money import Money
+from tests.bank_builder import BankBuilder
 
 
 class TestBank:
-    def test_convert_euro_to_usd_returns_float(self):
+    def test_create_bank_with_exchange_rate(self):
         # ARRANGE
-        bank = Bank.create(Currency.EUR, Currency.USD, 1.2)
-        expected_result = 12.0
-
-        # ACT
-        result = bank.convert_currency(10.0, Currency.EUR, Currency.USD)
-
-        # ASSERT
-        assert isinstance(result, float)
-        assert result == expected_result
-
-    def test_convert_money_euro_to_usd(self):
-        # ARRANGE
-        bank = Bank.create(Currency.EUR, Currency.USD, 1.2)
+        bank = BankBuilder().with_pivot_currency(Currency.EUR).with_rate(Currency.USD, 1.2).build()
         money = Money(10.0, Currency.EUR)
-        expected = Money(12.0, Currency.USD)
-
+        
         # ACT
         result = bank.convert(money, Currency.USD)
-
+        
         # ASSERT
-        assert isinstance(result, Money)
-        assert result == expected
+        assert result == Money(12.0, Currency.USD)
 
-    def test_convert_euro_to_usd_returns_same_value(self):
+    def test_convert_same_currency(self):
         # ARRANGE
-        bank = Bank.create(Currency.EUR, Currency.USD, 1.2)
-        expected_result = 10.0
-
+        bank = BankBuilder().with_pivot_currency(Currency.EUR).with_rate(Currency.USD, 1.2).build()
+        money = Money(10.0, Currency.EUR)
+        
         # ACT
-        result = bank.convert_currency(10.0, Currency.EUR, Currency.EUR)
-
-        # ASSERT
-        assert isinstance(result, float)
-        assert result == expected_result
-
-    def test_convert_same_currency_money(self):
-        """Test de conversion avec la même monnaie"""
-        bank = Bank.create(Currency.EUR, Currency.USD, 1.2)
-        money = Money(10, Currency.EUR)
-
         result = bank.convert(money, Currency.EUR)
-
-        assert result == money  # Devrait retourner le même objet (ou équivalent)
-
-    def test_convert_with_different_exchange_rate_returns_different_floats(self):
-        # ARRANGE
-        bank = Bank.create(Currency.EUR, Currency.USD, 1.2)
-        bank2 = Bank.create(Currency.EUR, Currency.USD, 1.2)
-
-        # ACT
-        bank2.add_exchange_rate(Currency.EUR, Currency.USD, 1.3)
-
+        
         # ASSERT
-        assert bank.convert_currency(10, Currency.EUR, Currency.USD) == 12
-        assert bank2.convert_currency(10, Currency.EUR, Currency.USD) == 13
+        assert result == Money(10.0, Currency.EUR)
+
+    def test_convert_with_different_rate(self):
+        # ARRANGE
+        bank1 = BankBuilder().with_pivot_currency(Currency.EUR).with_rate(Currency.USD, 1.2).build()
+        bank2 = BankBuilder().with_pivot_currency(Currency.EUR).with_rate(Currency.USD, 1.3).build()
+        money = Money(10.0, Currency.EUR)
+        
+        # ACT
+        result1 = bank1.convert(money, Currency.USD)
+        result2 = bank2.convert(money, Currency.USD)
+        
+        # ASSERT
+        assert result1 == Money(12.0, Currency.USD)
+        assert result2 == Money(13.0, Currency.USD)
+
+    def test_add_exchange_rate(self):
+        # ARRANGE
+        bank = BankBuilder().with_pivot_currency(Currency.EUR).build()
+        money = Money(10.0, Currency.EUR)
+        
+        # ACT
+        bank.add_exchange_rate(Currency.USD, 1.2)
+        result = bank.convert(money, Currency.USD)
+        
+        # ASSERT
+        assert result == Money(12.0, Currency.USD)
 
     def test_add_multiple_exchange_rates(self):
-        """Test d'ajout de plusieurs taux d'échange"""
-        bank = Bank()
-        bank.add_exchange_rate(Currency.EUR, Currency.USD, 1.2)
-        bank.add_exchange_rate(Currency.USD, Currency.EUR, 0.8)
-        bank.add_exchange_rate(Currency.EUR, Currency.KRW, 1300.0)
-
-        assert bank.convert_currency(10, Currency.EUR, Currency.USD) == 12.0
-        assert bank.convert_currency(10, Currency.USD, Currency.EUR) == 8.0
-        assert bank.convert_currency(10, Currency.EUR, Currency.KRW) == 13000.0
-
-    def test_convert_currency_precision(self):
-        """Test de précision dans les conversions"""
-        bank = Bank.create(Currency.EUR, Currency.USD, 1.23456789)
-
-        result = bank.convert_currency(10.12345678, Currency.EUR, Currency.USD)
-
-        expected = 10.12345678 * 1.23456789
-        assert abs(result - expected) < 1e-10
-
-    def test_bank_create_without_rate(self):
-        """Test de création de banque sans taux initial"""
-        bank = Bank()
-
-        assert bank._exchange_rate == {}
-
-
-    def test_convert_with_missing_exchange_rate_throws_exception(self):
         # ARRANGE
-        bank = Bank.create(Currency.EUR, Currency.USD, 1.2)
-
+        bank = BankBuilder().with_pivot_currency(Currency.EUR).build()
+        eur_money = Money(10.0, Currency.EUR)
+        
         # ACT
-        with pytest.raises(MissingExchangeRateError) as error:
-            bank.convert_currency(10.0, Currency.EUR, Currency.KRW)
-
+        bank.add_exchange_rate(Currency.USD, 1.2)
+        bank.add_exchange_rate(Currency.KRW, 1000.0)
+        result1 = bank.convert(eur_money, Currency.USD)
+        result2 = bank.convert(eur_money, Currency.KRW)
+        
         # ASSERT
-        assert str(error.value) == "La banque ne propose pas cet échange : EUR->KRW"
+        assert result1 == Money(12.0, Currency.USD)
+        assert result2 == Money(10_000.0, Currency.KRW)
 
-    def test_convert_money_with_missing_rate(self):
-        """Test que convert lance l'exception appropriée"""
-        bank = Bank.create(Currency.EUR, Currency.USD, 1.2)
-        money = Money(10, Currency.EUR)
-
-        with pytest.raises(MissingExchangeRateError) as error:
+    def test_convert_with_missing_rate_raises(self):
+        # ARRANGE
+        bank = BankBuilder().with_pivot_currency(Currency.EUR).with_rate(Currency.USD, 1.2).build()
+        money = Money(10.0, Currency.EUR)
+        
+        # ACT & ASSERT
+        with pytest.raises(MissingExchangeRateError) as exc:
             bank.convert(money, Currency.KRW)
+        assert str(exc.value) == "La banque ne propose pas cet échange : EUR->KRW"
 
-        assert str(error.value) == "La banque ne propose pas cet échange : EUR->KRW"
-
-    def test_convert_with_missing_rate_from_bank_without_rates(self):
-        """Test de conversion avec une banque sans aucun taux"""
-        bank = Bank()
-
-        with pytest.raises(MissingExchangeRateError) as error:
-            bank.convert_currency(10.0, Currency.EUR, Currency.USD)
-
-        assert str(error.value) == "La banque ne propose pas cet échange : EUR->USD"
+    def test_convert_from_bank_without_rates_raises(self):
+        # ARRANGE
+        bank = BankBuilder().with_pivot_currency(Currency.EUR).build()
+        money = Money(10.0, Currency.EUR)
+        
+        # ACT & ASSERT
+        with pytest.raises(MissingExchangeRateError) as exc:
+            bank.convert(money, Currency.USD)
+        assert str(exc.value) == "La banque ne propose pas cet échange : EUR->USD"
 
     def test_missing_exchange_rate_error_message(self):
+        # ARRANGE & ACT
         error = MissingExchangeRateError(Currency.EUR, Currency.KRW)
+        
+        # ASSERT
         assert str(error) == "La banque ne propose pas cet échange : EUR->KRW"
+
+    def test_convert_with_precision(self):
+        # ARRANGE
+        bank = BankBuilder().with_pivot_currency(Currency.EUR).with_rate(Currency.USD, 1.23456789).build()
+        money = Money(10.12345678, Currency.EUR)
+        
+        # ACT
+        result = bank.convert(money, Currency.USD)
+        
+        # ASSERT
+        expected = 10.12345678 * 1.23456789
+        assert abs(result.amount - expected) < 1e-2
+        assert result.currency == Currency.USD
+
+    def test_exchange_to_pivot_currency(self):
+        # ARRANGE
+        bank = BankBuilder().with_pivot_currency(Currency.EUR).build()
+        
+        # ACT & ASSERT
+        with pytest.raises(AssertionError) as exc:
+            bank.add_exchange_rate(Currency.EUR, 1)
+        assert str(exc.value) == "Le to_currency doit être différent du pivot_currency"
+        
+    def test_negative_exchange_rate(self):
+        # ARRANGE
+        bank = BankBuilder().with_pivot_currency(Currency.EUR).build()
+        
+        # ACT & ASSERT
+        with pytest.raises(AssertionError) as exc:
+            bank.add_exchange_rate(Currency.USD, -1)
+        assert str(exc.value) == "Le taux d'échange doit être positif"
+        
+    def test_zero_exchange_rate(self):
+        # ARRANGE
+        bank = BankBuilder().with_pivot_currency(Currency.EUR).build()
+        
+        # ACT & ASSERT
+        with pytest.raises(AssertionError) as exc:
+            bank.add_exchange_rate(Currency.USD, 0)
+        assert str(exc.value) == "Le taux d'échange doit être positif"
+        
+    def test_pivot_not_none(self):
+        # ARRANGE & ACT & ASSERT
+        with pytest.raises(AssertionError) as exc:
+            Bank(None)
+        assert str(exc.value) == "Le pivot currency ne peut pas être None"
+        
+    def test_rounding_on_convert(self):
+        # ARRANGE
+        bank = BankBuilder().with_pivot_currency(Currency.EUR).with_rate(Currency.USD, 1.234).build()
+        money = Money(10.0, Currency.EUR)
+        
+        # ACT
+        result = bank.convert(money, Currency.USD)
+        
+        # ASSERT
+        assert str(result.amount) == "12.34"
+        
+        

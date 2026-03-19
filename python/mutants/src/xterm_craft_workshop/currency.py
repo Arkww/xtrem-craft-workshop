@@ -31,7 +31,6 @@ def _mutmut_trampoline(orig, mutants, call_args, call_kwargs, self_arg = None): 
         result = mutants[mutant_name](*call_args, **call_kwargs) # type: ignore
     return result # type: ignore
 
-
 class Currency(Enum):
     USD = "USD"
     EUR = "EUR"

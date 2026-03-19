@@ -37,187 +37,212 @@ def _mutmut_trampoline(orig, mutants, call_args, call_kwargs, self_arg = None): 
 
 
 class Bank:
-    def __init__(self, exchange_rate: Dict[str, float] = None):
-        args = [exchange_rate]# type: ignore
+    def __init__(self, pivot_currency: Currency, exchange_rate: Dict[str, float] = {}):
+        args = [pivot_currency, exchange_rate]# type: ignore
         kwargs = {}# type: ignore
         return _mutmut_trampoline(object.__getattribute__(self, 'xǁBankǁ__init____mutmut_orig'), object.__getattribute__(self, 'xǁBankǁ__init____mutmut_mutants'), args, kwargs, self)
-    def xǁBankǁ__init____mutmut_orig(self, exchange_rate: Dict[str, float] = None):
-        self._exchange_rate = exchange_rate if exchange_rate is not None else {}
-    def xǁBankǁ__init____mutmut_1(self, exchange_rate: Dict[str, float] = None):
+    def xǁBankǁ__init____mutmut_orig(self, pivot_currency: Currency, exchange_rate: Dict[str, float] = {}):
+        self._exchange_rate = exchange_rate
+        assert pivot_currency is not None, "Le pivot currency ne peut pas être None"
+        self._pivot_currency = pivot_currency
+    def xǁBankǁ__init____mutmut_1(self, pivot_currency: Currency, exchange_rate: Dict[str, float] = {}):
         self._exchange_rate = None
-    def xǁBankǁ__init____mutmut_2(self, exchange_rate: Dict[str, float] = None):
-        self._exchange_rate = exchange_rate if exchange_rate is None else {}
+        assert pivot_currency is not None, "Le pivot currency ne peut pas être None"
+        self._pivot_currency = pivot_currency
+    def xǁBankǁ__init____mutmut_2(self, pivot_currency: Currency, exchange_rate: Dict[str, float] = {}):
+        self._exchange_rate = exchange_rate
+        assert pivot_currency is None, "Le pivot currency ne peut pas être None"
+        self._pivot_currency = pivot_currency
+    def xǁBankǁ__init____mutmut_3(self, pivot_currency: Currency, exchange_rate: Dict[str, float] = {}):
+        self._exchange_rate = exchange_rate
+        assert pivot_currency is not None, "XXLe pivot currency ne peut pas être NoneXX"
+        self._pivot_currency = pivot_currency
+    def xǁBankǁ__init____mutmut_4(self, pivot_currency: Currency, exchange_rate: Dict[str, float] = {}):
+        self._exchange_rate = exchange_rate
+        assert pivot_currency is not None, "le pivot currency ne peut pas être none"
+        self._pivot_currency = pivot_currency
+    def xǁBankǁ__init____mutmut_5(self, pivot_currency: Currency, exchange_rate: Dict[str, float] = {}):
+        self._exchange_rate = exchange_rate
+        assert pivot_currency is not None, "LE PIVOT CURRENCY NE PEUT PAS ÊTRE NONE"
+        self._pivot_currency = pivot_currency
+    def xǁBankǁ__init____mutmut_6(self, pivot_currency: Currency, exchange_rate: Dict[str, float] = {}):
+        self._exchange_rate = exchange_rate
+        assert pivot_currency is not None, "Le pivot currency ne peut pas être None"
+        self._pivot_currency = None
     
     xǁBankǁ__init____mutmut_mutants : ClassVar[MutantDict] = { # type: ignore
     'xǁBankǁ__init____mutmut_1': xǁBankǁ__init____mutmut_1, 
-        'xǁBankǁ__init____mutmut_2': xǁBankǁ__init____mutmut_2
+        'xǁBankǁ__init____mutmut_2': xǁBankǁ__init____mutmut_2, 
+        'xǁBankǁ__init____mutmut_3': xǁBankǁ__init____mutmut_3, 
+        'xǁBankǁ__init____mutmut_4': xǁBankǁ__init____mutmut_4, 
+        'xǁBankǁ__init____mutmut_5': xǁBankǁ__init____mutmut_5, 
+        'xǁBankǁ__init____mutmut_6': xǁBankǁ__init____mutmut_6
     }
     xǁBankǁ__init____mutmut_orig.__name__ = 'xǁBankǁ__init__'
 
-    @staticmethod
-    def create(from_currency: Currency, to_currency: Currency, rate: float) -> "Bank":
-        """
-        Créer une banque avec un taux d'échange initial
-        """
-        bank = Bank()
-        bank.add_exchange_rate(from_currency, to_currency, rate)
-        return bank
-
-    def add_exchange_rate(self, from_currency: Currency, to_currency: Currency, rate: float) -> None:
-        args = [from_currency, to_currency, rate]# type: ignore
+    def add_exchange_rate(self, to_currency: Currency, rate: float) -> None:
+        args = [to_currency, rate]# type: ignore
         kwargs = {}# type: ignore
         return _mutmut_trampoline(object.__getattribute__(self, 'xǁBankǁadd_exchange_rate__mutmut_orig'), object.__getattribute__(self, 'xǁBankǁadd_exchange_rate__mutmut_mutants'), args, kwargs, self)
 
-    def xǁBankǁadd_exchange_rate__mutmut_orig(self, from_currency: Currency, to_currency: Currency, rate: float) -> None:
+    def xǁBankǁadd_exchange_rate__mutmut_orig(self, to_currency: Currency, rate: float) -> None:
         """
-        Ajouter un taux d'échange
+        Ajouter un taux d'échange (méthode métier)
         """
-        self._exchange_rate[f'{from_currency.value}->{to_currency.value}'] = rate
+        assert rate > 0, "Le taux d'échange doit être positif"
+        assert to_currency != self._pivot_currency, "Le to_currency doit être différent du pivot_currency"
+        assert to_currency not in self._exchange_rate.keys(), "Le taux d'échange existe déjà"
+        self._exchange_rate[to_currency] = rate
 
-    def xǁBankǁadd_exchange_rate__mutmut_1(self, from_currency: Currency, to_currency: Currency, rate: float) -> None:
+    def xǁBankǁadd_exchange_rate__mutmut_1(self, to_currency: Currency, rate: float) -> None:
         """
-        Ajouter un taux d'échange
+        Ajouter un taux d'échange (méthode métier)
         """
-        self._exchange_rate[f'{from_currency.value}->{to_currency.value}'] = None
+        assert rate >= 0, "Le taux d'échange doit être positif"
+        assert to_currency != self._pivot_currency, "Le to_currency doit être différent du pivot_currency"
+        assert to_currency not in self._exchange_rate.keys(), "Le taux d'échange existe déjà"
+        self._exchange_rate[to_currency] = rate
+
+    def xǁBankǁadd_exchange_rate__mutmut_2(self, to_currency: Currency, rate: float) -> None:
+        """
+        Ajouter un taux d'échange (méthode métier)
+        """
+        assert rate > 1, "Le taux d'échange doit être positif"
+        assert to_currency != self._pivot_currency, "Le to_currency doit être différent du pivot_currency"
+        assert to_currency not in self._exchange_rate.keys(), "Le taux d'échange existe déjà"
+        self._exchange_rate[to_currency] = rate
+
+    def xǁBankǁadd_exchange_rate__mutmut_3(self, to_currency: Currency, rate: float) -> None:
+        """
+        Ajouter un taux d'échange (méthode métier)
+        """
+        assert rate > 0, "XXLe taux d'échange doit être positifXX"
+        assert to_currency != self._pivot_currency, "Le to_currency doit être différent du pivot_currency"
+        assert to_currency not in self._exchange_rate.keys(), "Le taux d'échange existe déjà"
+        self._exchange_rate[to_currency] = rate
+
+    def xǁBankǁadd_exchange_rate__mutmut_4(self, to_currency: Currency, rate: float) -> None:
+        """
+        Ajouter un taux d'échange (méthode métier)
+        """
+        assert rate > 0, "le taux d'échange doit être positif"
+        assert to_currency != self._pivot_currency, "Le to_currency doit être différent du pivot_currency"
+        assert to_currency not in self._exchange_rate.keys(), "Le taux d'échange existe déjà"
+        self._exchange_rate[to_currency] = rate
+
+    def xǁBankǁadd_exchange_rate__mutmut_5(self, to_currency: Currency, rate: float) -> None:
+        """
+        Ajouter un taux d'échange (méthode métier)
+        """
+        assert rate > 0, "LE TAUX D'ÉCHANGE DOIT ÊTRE POSITIF"
+        assert to_currency != self._pivot_currency, "Le to_currency doit être différent du pivot_currency"
+        assert to_currency not in self._exchange_rate.keys(), "Le taux d'échange existe déjà"
+        self._exchange_rate[to_currency] = rate
+
+    def xǁBankǁadd_exchange_rate__mutmut_6(self, to_currency: Currency, rate: float) -> None:
+        """
+        Ajouter un taux d'échange (méthode métier)
+        """
+        assert rate > 0, "Le taux d'échange doit être positif"
+        assert to_currency == self._pivot_currency, "Le to_currency doit être différent du pivot_currency"
+        assert to_currency not in self._exchange_rate.keys(), "Le taux d'échange existe déjà"
+        self._exchange_rate[to_currency] = rate
+
+    def xǁBankǁadd_exchange_rate__mutmut_7(self, to_currency: Currency, rate: float) -> None:
+        """
+        Ajouter un taux d'échange (méthode métier)
+        """
+        assert rate > 0, "Le taux d'échange doit être positif"
+        assert to_currency != self._pivot_currency, "XXLe to_currency doit être différent du pivot_currencyXX"
+        assert to_currency not in self._exchange_rate.keys(), "Le taux d'échange existe déjà"
+        self._exchange_rate[to_currency] = rate
+
+    def xǁBankǁadd_exchange_rate__mutmut_8(self, to_currency: Currency, rate: float) -> None:
+        """
+        Ajouter un taux d'échange (méthode métier)
+        """
+        assert rate > 0, "Le taux d'échange doit être positif"
+        assert to_currency != self._pivot_currency, "le to_currency doit être différent du pivot_currency"
+        assert to_currency not in self._exchange_rate.keys(), "Le taux d'échange existe déjà"
+        self._exchange_rate[to_currency] = rate
+
+    def xǁBankǁadd_exchange_rate__mutmut_9(self, to_currency: Currency, rate: float) -> None:
+        """
+        Ajouter un taux d'échange (méthode métier)
+        """
+        assert rate > 0, "Le taux d'échange doit être positif"
+        assert to_currency != self._pivot_currency, "LE TO_CURRENCY DOIT ÊTRE DIFFÉRENT DU PIVOT_CURRENCY"
+        assert to_currency not in self._exchange_rate.keys(), "Le taux d'échange existe déjà"
+        self._exchange_rate[to_currency] = rate
+
+    def xǁBankǁadd_exchange_rate__mutmut_10(self, to_currency: Currency, rate: float) -> None:
+        """
+        Ajouter un taux d'échange (méthode métier)
+        """
+        assert rate > 0, "Le taux d'échange doit être positif"
+        assert to_currency != self._pivot_currency, "Le to_currency doit être différent du pivot_currency"
+        assert to_currency in self._exchange_rate.keys(), "Le taux d'échange existe déjà"
+        self._exchange_rate[to_currency] = rate
+
+    def xǁBankǁadd_exchange_rate__mutmut_11(self, to_currency: Currency, rate: float) -> None:
+        """
+        Ajouter un taux d'échange (méthode métier)
+        """
+        assert rate > 0, "Le taux d'échange doit être positif"
+        assert to_currency != self._pivot_currency, "Le to_currency doit être différent du pivot_currency"
+        assert to_currency not in self._exchange_rate.keys(), "XXLe taux d'échange existe déjàXX"
+        self._exchange_rate[to_currency] = rate
+
+    def xǁBankǁadd_exchange_rate__mutmut_12(self, to_currency: Currency, rate: float) -> None:
+        """
+        Ajouter un taux d'échange (méthode métier)
+        """
+        assert rate > 0, "Le taux d'échange doit être positif"
+        assert to_currency != self._pivot_currency, "Le to_currency doit être différent du pivot_currency"
+        assert to_currency not in self._exchange_rate.keys(), "le taux d'échange existe déjà"
+        self._exchange_rate[to_currency] = rate
+
+    def xǁBankǁadd_exchange_rate__mutmut_13(self, to_currency: Currency, rate: float) -> None:
+        """
+        Ajouter un taux d'échange (méthode métier)
+        """
+        assert rate > 0, "Le taux d'échange doit être positif"
+        assert to_currency != self._pivot_currency, "Le to_currency doit être différent du pivot_currency"
+        assert to_currency not in self._exchange_rate.keys(), "LE TAUX D'ÉCHANGE EXISTE DÉJÀ"
+        self._exchange_rate[to_currency] = rate
+
+    def xǁBankǁadd_exchange_rate__mutmut_14(self, to_currency: Currency, rate: float) -> None:
+        """
+        Ajouter un taux d'échange (méthode métier)
+        """
+        assert rate > 0, "Le taux d'échange doit être positif"
+        assert to_currency != self._pivot_currency, "Le to_currency doit être différent du pivot_currency"
+        assert to_currency not in self._exchange_rate.keys(), "Le taux d'échange existe déjà"
+        self._exchange_rate[to_currency] = None
     
     xǁBankǁadd_exchange_rate__mutmut_mutants : ClassVar[MutantDict] = { # type: ignore
-    'xǁBankǁadd_exchange_rate__mutmut_1': xǁBankǁadd_exchange_rate__mutmut_1
+    'xǁBankǁadd_exchange_rate__mutmut_1': xǁBankǁadd_exchange_rate__mutmut_1, 
+        'xǁBankǁadd_exchange_rate__mutmut_2': xǁBankǁadd_exchange_rate__mutmut_2, 
+        'xǁBankǁadd_exchange_rate__mutmut_3': xǁBankǁadd_exchange_rate__mutmut_3, 
+        'xǁBankǁadd_exchange_rate__mutmut_4': xǁBankǁadd_exchange_rate__mutmut_4, 
+        'xǁBankǁadd_exchange_rate__mutmut_5': xǁBankǁadd_exchange_rate__mutmut_5, 
+        'xǁBankǁadd_exchange_rate__mutmut_6': xǁBankǁadd_exchange_rate__mutmut_6, 
+        'xǁBankǁadd_exchange_rate__mutmut_7': xǁBankǁadd_exchange_rate__mutmut_7, 
+        'xǁBankǁadd_exchange_rate__mutmut_8': xǁBankǁadd_exchange_rate__mutmut_8, 
+        'xǁBankǁadd_exchange_rate__mutmut_9': xǁBankǁadd_exchange_rate__mutmut_9, 
+        'xǁBankǁadd_exchange_rate__mutmut_10': xǁBankǁadd_exchange_rate__mutmut_10, 
+        'xǁBankǁadd_exchange_rate__mutmut_11': xǁBankǁadd_exchange_rate__mutmut_11, 
+        'xǁBankǁadd_exchange_rate__mutmut_12': xǁBankǁadd_exchange_rate__mutmut_12, 
+        'xǁBankǁadd_exchange_rate__mutmut_13': xǁBankǁadd_exchange_rate__mutmut_13, 
+        'xǁBankǁadd_exchange_rate__mutmut_14': xǁBankǁadd_exchange_rate__mutmut_14
     }
     xǁBankǁadd_exchange_rate__mutmut_orig.__name__ = 'xǁBankǁadd_exchange_rate'
 
-    def convert_currency(self, amount: float, from_currency: Currency, to_currency: Currency) -> float:
-        args = [amount, from_currency, to_currency]# type: ignore
-        kwargs = {}# type: ignore
-        return _mutmut_trampoline(object.__getattribute__(self, 'xǁBankǁconvert_currency__mutmut_orig'), object.__getattribute__(self, 'xǁBankǁconvert_currency__mutmut_mutants'), args, kwargs, self)
-
-    def xǁBankǁconvert_currency__mutmut_orig(self, amount: float, from_currency: Currency, to_currency: Currency) -> float:
+    def remove_exchange_rate(self, to_currency: Currency) -> None:
         """
-        Convertir un montant d'une monnaie à une autre
+        Supprimer un taux d'échange (méthode métier)
         """
-        if from_currency == to_currency:
-            return amount
-
-        key = f'{from_currency.value}->{to_currency.value}'
-        if key not in self._exchange_rate:
-            raise MissingExchangeRateError(from_currency, to_currency)
-
-        return amount * self._exchange_rate[key]
-
-    def xǁBankǁconvert_currency__mutmut_1(self, amount: float, from_currency: Currency, to_currency: Currency) -> float:
-        """
-        Convertir un montant d'une monnaie à une autre
-        """
-        if from_currency != to_currency:
-            return amount
-
-        key = f'{from_currency.value}->{to_currency.value}'
-        if key not in self._exchange_rate:
-            raise MissingExchangeRateError(from_currency, to_currency)
-
-        return amount * self._exchange_rate[key]
-
-    def xǁBankǁconvert_currency__mutmut_2(self, amount: float, from_currency: Currency, to_currency: Currency) -> float:
-        """
-        Convertir un montant d'une monnaie à une autre
-        """
-        if from_currency == to_currency:
-            return amount
-
-        key = None
-        if key not in self._exchange_rate:
-            raise MissingExchangeRateError(from_currency, to_currency)
-
-        return amount * self._exchange_rate[key]
-
-    def xǁBankǁconvert_currency__mutmut_3(self, amount: float, from_currency: Currency, to_currency: Currency) -> float:
-        """
-        Convertir un montant d'une monnaie à une autre
-        """
-        if from_currency == to_currency:
-            return amount
-
-        key = f'{from_currency.value}->{to_currency.value}'
-        if key in self._exchange_rate:
-            raise MissingExchangeRateError(from_currency, to_currency)
-
-        return amount * self._exchange_rate[key]
-
-    def xǁBankǁconvert_currency__mutmut_4(self, amount: float, from_currency: Currency, to_currency: Currency) -> float:
-        """
-        Convertir un montant d'une monnaie à une autre
-        """
-        if from_currency == to_currency:
-            return amount
-
-        key = f'{from_currency.value}->{to_currency.value}'
-        if key not in self._exchange_rate:
-            raise MissingExchangeRateError(None, to_currency)
-
-        return amount * self._exchange_rate[key]
-
-    def xǁBankǁconvert_currency__mutmut_5(self, amount: float, from_currency: Currency, to_currency: Currency) -> float:
-        """
-        Convertir un montant d'une monnaie à une autre
-        """
-        if from_currency == to_currency:
-            return amount
-
-        key = f'{from_currency.value}->{to_currency.value}'
-        if key not in self._exchange_rate:
-            raise MissingExchangeRateError(from_currency, None)
-
-        return amount * self._exchange_rate[key]
-
-    def xǁBankǁconvert_currency__mutmut_6(self, amount: float, from_currency: Currency, to_currency: Currency) -> float:
-        """
-        Convertir un montant d'une monnaie à une autre
-        """
-        if from_currency == to_currency:
-            return amount
-
-        key = f'{from_currency.value}->{to_currency.value}'
-        if key not in self._exchange_rate:
-            raise MissingExchangeRateError(to_currency)
-
-        return amount * self._exchange_rate[key]
-
-    def xǁBankǁconvert_currency__mutmut_7(self, amount: float, from_currency: Currency, to_currency: Currency) -> float:
-        """
-        Convertir un montant d'une monnaie à une autre
-        """
-        if from_currency == to_currency:
-            return amount
-
-        key = f'{from_currency.value}->{to_currency.value}'
-        if key not in self._exchange_rate:
-            raise MissingExchangeRateError(from_currency, )
-
-        return amount * self._exchange_rate[key]
-
-    def xǁBankǁconvert_currency__mutmut_8(self, amount: float, from_currency: Currency, to_currency: Currency) -> float:
-        """
-        Convertir un montant d'une monnaie à une autre
-        """
-        if from_currency == to_currency:
-            return amount
-
-        key = f'{from_currency.value}->{to_currency.value}'
-        if key not in self._exchange_rate:
-            raise MissingExchangeRateError(from_currency, to_currency)
-
-        return amount / self._exchange_rate[key]
-    
-    xǁBankǁconvert_currency__mutmut_mutants : ClassVar[MutantDict] = { # type: ignore
-    'xǁBankǁconvert_currency__mutmut_1': xǁBankǁconvert_currency__mutmut_1, 
-        'xǁBankǁconvert_currency__mutmut_2': xǁBankǁconvert_currency__mutmut_2, 
-        'xǁBankǁconvert_currency__mutmut_3': xǁBankǁconvert_currency__mutmut_3, 
-        'xǁBankǁconvert_currency__mutmut_4': xǁBankǁconvert_currency__mutmut_4, 
-        'xǁBankǁconvert_currency__mutmut_5': xǁBankǁconvert_currency__mutmut_5, 
-        'xǁBankǁconvert_currency__mutmut_6': xǁBankǁconvert_currency__mutmut_6, 
-        'xǁBankǁconvert_currency__mutmut_7': xǁBankǁconvert_currency__mutmut_7, 
-        'xǁBankǁconvert_currency__mutmut_8': xǁBankǁconvert_currency__mutmut_8
-    }
-    xǁBankǁconvert_currency__mutmut_orig.__name__ = 'xǁBankǁconvert_currency'
+        del self._exchange_rate[to_currency]
 
     def convert(self, money: Money, to_currency: Currency) -> Money:
         args = [money, to_currency]# type: ignore
@@ -230,8 +255,16 @@ class Bank:
         """
         if money.currency == to_currency:
             return Money(money.amount, to_currency)
+        
+        if to_currency in self._exchange_rate.keys():
+            converted_amount = round(money.amount * self._exchange_rate[to_currency], 2)
 
-        converted_amount = self.convert_currency(money.amount, money.currency, to_currency)
+        elif to_currency == self._pivot_currency and money.currency in self._exchange_rate.keys():
+            converted_amount = round(money.amount / self._exchange_rate[money.currency], 2)
+
+        else:
+            raise MissingExchangeRateError(money.currency, to_currency)
+
         return Money(converted_amount, to_currency)
 
     def xǁBankǁconvert__mutmut_1(self, money: Money, to_currency: Currency) -> Money:
@@ -240,8 +273,16 @@ class Bank:
         """
         if money.currency != to_currency:
             return Money(money.amount, to_currency)
+        
+        if to_currency in self._exchange_rate.keys():
+            converted_amount = round(money.amount * self._exchange_rate[to_currency], 2)
 
-        converted_amount = self.convert_currency(money.amount, money.currency, to_currency)
+        elif to_currency == self._pivot_currency and money.currency in self._exchange_rate.keys():
+            converted_amount = round(money.amount / self._exchange_rate[money.currency], 2)
+
+        else:
+            raise MissingExchangeRateError(money.currency, to_currency)
+
         return Money(converted_amount, to_currency)
 
     def xǁBankǁconvert__mutmut_2(self, money: Money, to_currency: Currency) -> Money:
@@ -250,8 +291,16 @@ class Bank:
         """
         if money.currency == to_currency:
             return Money(None, to_currency)
+        
+        if to_currency in self._exchange_rate.keys():
+            converted_amount = round(money.amount * self._exchange_rate[to_currency], 2)
 
-        converted_amount = self.convert_currency(money.amount, money.currency, to_currency)
+        elif to_currency == self._pivot_currency and money.currency in self._exchange_rate.keys():
+            converted_amount = round(money.amount / self._exchange_rate[money.currency], 2)
+
+        else:
+            raise MissingExchangeRateError(money.currency, to_currency)
+
         return Money(converted_amount, to_currency)
 
     def xǁBankǁconvert__mutmut_3(self, money: Money, to_currency: Currency) -> Money:
@@ -260,8 +309,16 @@ class Bank:
         """
         if money.currency == to_currency:
             return Money(money.amount, None)
+        
+        if to_currency in self._exchange_rate.keys():
+            converted_amount = round(money.amount * self._exchange_rate[to_currency], 2)
 
-        converted_amount = self.convert_currency(money.amount, money.currency, to_currency)
+        elif to_currency == self._pivot_currency and money.currency in self._exchange_rate.keys():
+            converted_amount = round(money.amount / self._exchange_rate[money.currency], 2)
+
+        else:
+            raise MissingExchangeRateError(money.currency, to_currency)
+
         return Money(converted_amount, to_currency)
 
     def xǁBankǁconvert__mutmut_4(self, money: Money, to_currency: Currency) -> Money:
@@ -270,8 +327,16 @@ class Bank:
         """
         if money.currency == to_currency:
             return Money(to_currency)
+        
+        if to_currency in self._exchange_rate.keys():
+            converted_amount = round(money.amount * self._exchange_rate[to_currency], 2)
 
-        converted_amount = self.convert_currency(money.amount, money.currency, to_currency)
+        elif to_currency == self._pivot_currency and money.currency in self._exchange_rate.keys():
+            converted_amount = round(money.amount / self._exchange_rate[money.currency], 2)
+
+        else:
+            raise MissingExchangeRateError(money.currency, to_currency)
+
         return Money(converted_amount, to_currency)
 
     def xǁBankǁconvert__mutmut_5(self, money: Money, to_currency: Currency) -> Money:
@@ -280,8 +345,16 @@ class Bank:
         """
         if money.currency == to_currency:
             return Money(money.amount, )
+        
+        if to_currency in self._exchange_rate.keys():
+            converted_amount = round(money.amount * self._exchange_rate[to_currency], 2)
 
-        converted_amount = self.convert_currency(money.amount, money.currency, to_currency)
+        elif to_currency == self._pivot_currency and money.currency in self._exchange_rate.keys():
+            converted_amount = round(money.amount / self._exchange_rate[money.currency], 2)
+
+        else:
+            raise MissingExchangeRateError(money.currency, to_currency)
+
         return Money(converted_amount, to_currency)
 
     def xǁBankǁconvert__mutmut_6(self, money: Money, to_currency: Currency) -> Money:
@@ -290,8 +363,16 @@ class Bank:
         """
         if money.currency == to_currency:
             return Money(money.amount, to_currency)
+        
+        if to_currency not in self._exchange_rate.keys():
+            converted_amount = round(money.amount * self._exchange_rate[to_currency], 2)
 
-        converted_amount = None
+        elif to_currency == self._pivot_currency and money.currency in self._exchange_rate.keys():
+            converted_amount = round(money.amount / self._exchange_rate[money.currency], 2)
+
+        else:
+            raise MissingExchangeRateError(money.currency, to_currency)
+
         return Money(converted_amount, to_currency)
 
     def xǁBankǁconvert__mutmut_7(self, money: Money, to_currency: Currency) -> Money:
@@ -300,8 +381,16 @@ class Bank:
         """
         if money.currency == to_currency:
             return Money(money.amount, to_currency)
+        
+        if to_currency in self._exchange_rate.keys():
+            converted_amount = None
 
-        converted_amount = self.convert_currency(None, money.currency, to_currency)
+        elif to_currency == self._pivot_currency and money.currency in self._exchange_rate.keys():
+            converted_amount = round(money.amount / self._exchange_rate[money.currency], 2)
+
+        else:
+            raise MissingExchangeRateError(money.currency, to_currency)
+
         return Money(converted_amount, to_currency)
 
     def xǁBankǁconvert__mutmut_8(self, money: Money, to_currency: Currency) -> Money:
@@ -310,8 +399,16 @@ class Bank:
         """
         if money.currency == to_currency:
             return Money(money.amount, to_currency)
+        
+        if to_currency in self._exchange_rate.keys():
+            converted_amount = round(None, 2)
 
-        converted_amount = self.convert_currency(money.amount, None, to_currency)
+        elif to_currency == self._pivot_currency and money.currency in self._exchange_rate.keys():
+            converted_amount = round(money.amount / self._exchange_rate[money.currency], 2)
+
+        else:
+            raise MissingExchangeRateError(money.currency, to_currency)
+
         return Money(converted_amount, to_currency)
 
     def xǁBankǁconvert__mutmut_9(self, money: Money, to_currency: Currency) -> Money:
@@ -320,8 +417,16 @@ class Bank:
         """
         if money.currency == to_currency:
             return Money(money.amount, to_currency)
+        
+        if to_currency in self._exchange_rate.keys():
+            converted_amount = round(money.amount * self._exchange_rate[to_currency], None)
 
-        converted_amount = self.convert_currency(money.amount, money.currency, None)
+        elif to_currency == self._pivot_currency and money.currency in self._exchange_rate.keys():
+            converted_amount = round(money.amount / self._exchange_rate[money.currency], 2)
+
+        else:
+            raise MissingExchangeRateError(money.currency, to_currency)
+
         return Money(converted_amount, to_currency)
 
     def xǁBankǁconvert__mutmut_10(self, money: Money, to_currency: Currency) -> Money:
@@ -330,8 +435,16 @@ class Bank:
         """
         if money.currency == to_currency:
             return Money(money.amount, to_currency)
+        
+        if to_currency in self._exchange_rate.keys():
+            converted_amount = round(2)
 
-        converted_amount = self.convert_currency(money.currency, to_currency)
+        elif to_currency == self._pivot_currency and money.currency in self._exchange_rate.keys():
+            converted_amount = round(money.amount / self._exchange_rate[money.currency], 2)
+
+        else:
+            raise MissingExchangeRateError(money.currency, to_currency)
+
         return Money(converted_amount, to_currency)
 
     def xǁBankǁconvert__mutmut_11(self, money: Money, to_currency: Currency) -> Money:
@@ -340,8 +453,16 @@ class Bank:
         """
         if money.currency == to_currency:
             return Money(money.amount, to_currency)
+        
+        if to_currency in self._exchange_rate.keys():
+            converted_amount = round(money.amount * self._exchange_rate[to_currency], )
 
-        converted_amount = self.convert_currency(money.amount, to_currency)
+        elif to_currency == self._pivot_currency and money.currency in self._exchange_rate.keys():
+            converted_amount = round(money.amount / self._exchange_rate[money.currency], 2)
+
+        else:
+            raise MissingExchangeRateError(money.currency, to_currency)
+
         return Money(converted_amount, to_currency)
 
     def xǁBankǁconvert__mutmut_12(self, money: Money, to_currency: Currency) -> Money:
@@ -350,8 +471,16 @@ class Bank:
         """
         if money.currency == to_currency:
             return Money(money.amount, to_currency)
+        
+        if to_currency in self._exchange_rate.keys():
+            converted_amount = round(money.amount / self._exchange_rate[to_currency], 2)
 
-        converted_amount = self.convert_currency(money.amount, money.currency, )
+        elif to_currency == self._pivot_currency and money.currency in self._exchange_rate.keys():
+            converted_amount = round(money.amount / self._exchange_rate[money.currency], 2)
+
+        else:
+            raise MissingExchangeRateError(money.currency, to_currency)
+
         return Money(converted_amount, to_currency)
 
     def xǁBankǁconvert__mutmut_13(self, money: Money, to_currency: Currency) -> Money:
@@ -360,9 +489,17 @@ class Bank:
         """
         if money.currency == to_currency:
             return Money(money.amount, to_currency)
+        
+        if to_currency in self._exchange_rate.keys():
+            converted_amount = round(money.amount * self._exchange_rate[to_currency], 3)
 
-        converted_amount = self.convert_currency(money.amount, money.currency, to_currency)
-        return Money(None, to_currency)
+        elif to_currency == self._pivot_currency and money.currency in self._exchange_rate.keys():
+            converted_amount = round(money.amount / self._exchange_rate[money.currency], 2)
+
+        else:
+            raise MissingExchangeRateError(money.currency, to_currency)
+
+        return Money(converted_amount, to_currency)
 
     def xǁBankǁconvert__mutmut_14(self, money: Money, to_currency: Currency) -> Money:
         """
@@ -370,9 +507,17 @@ class Bank:
         """
         if money.currency == to_currency:
             return Money(money.amount, to_currency)
+        
+        if to_currency in self._exchange_rate.keys():
+            converted_amount = round(money.amount * self._exchange_rate[to_currency], 2)
 
-        converted_amount = self.convert_currency(money.amount, money.currency, to_currency)
-        return Money(converted_amount, None)
+        elif to_currency == self._pivot_currency or money.currency in self._exchange_rate.keys():
+            converted_amount = round(money.amount / self._exchange_rate[money.currency], 2)
+
+        else:
+            raise MissingExchangeRateError(money.currency, to_currency)
+
+        return Money(converted_amount, to_currency)
 
     def xǁBankǁconvert__mutmut_15(self, money: Money, to_currency: Currency) -> Money:
         """
@@ -380,9 +525,17 @@ class Bank:
         """
         if money.currency == to_currency:
             return Money(money.amount, to_currency)
+        
+        if to_currency in self._exchange_rate.keys():
+            converted_amount = round(money.amount * self._exchange_rate[to_currency], 2)
 
-        converted_amount = self.convert_currency(money.amount, money.currency, to_currency)
-        return Money(to_currency)
+        elif to_currency != self._pivot_currency and money.currency in self._exchange_rate.keys():
+            converted_amount = round(money.amount / self._exchange_rate[money.currency], 2)
+
+        else:
+            raise MissingExchangeRateError(money.currency, to_currency)
+
+        return Money(converted_amount, to_currency)
 
     def xǁBankǁconvert__mutmut_16(self, money: Money, to_currency: Currency) -> Money:
         """
@@ -390,8 +543,286 @@ class Bank:
         """
         if money.currency == to_currency:
             return Money(money.amount, to_currency)
+        
+        if to_currency in self._exchange_rate.keys():
+            converted_amount = round(money.amount * self._exchange_rate[to_currency], 2)
 
-        converted_amount = self.convert_currency(money.amount, money.currency, to_currency)
+        elif to_currency == self._pivot_currency and money.currency not in self._exchange_rate.keys():
+            converted_amount = round(money.amount / self._exchange_rate[money.currency], 2)
+
+        else:
+            raise MissingExchangeRateError(money.currency, to_currency)
+
+        return Money(converted_amount, to_currency)
+
+    def xǁBankǁconvert__mutmut_17(self, money: Money, to_currency: Currency) -> Money:
+        """
+        Convertir un objet Money dans une autre monnaie
+        """
+        if money.currency == to_currency:
+            return Money(money.amount, to_currency)
+        
+        if to_currency in self._exchange_rate.keys():
+            converted_amount = round(money.amount * self._exchange_rate[to_currency], 2)
+
+        elif to_currency == self._pivot_currency and money.currency in self._exchange_rate.keys():
+            converted_amount = None
+
+        else:
+            raise MissingExchangeRateError(money.currency, to_currency)
+
+        return Money(converted_amount, to_currency)
+
+    def xǁBankǁconvert__mutmut_18(self, money: Money, to_currency: Currency) -> Money:
+        """
+        Convertir un objet Money dans une autre monnaie
+        """
+        if money.currency == to_currency:
+            return Money(money.amount, to_currency)
+        
+        if to_currency in self._exchange_rate.keys():
+            converted_amount = round(money.amount * self._exchange_rate[to_currency], 2)
+
+        elif to_currency == self._pivot_currency and money.currency in self._exchange_rate.keys():
+            converted_amount = round(None, 2)
+
+        else:
+            raise MissingExchangeRateError(money.currency, to_currency)
+
+        return Money(converted_amount, to_currency)
+
+    def xǁBankǁconvert__mutmut_19(self, money: Money, to_currency: Currency) -> Money:
+        """
+        Convertir un objet Money dans une autre monnaie
+        """
+        if money.currency == to_currency:
+            return Money(money.amount, to_currency)
+        
+        if to_currency in self._exchange_rate.keys():
+            converted_amount = round(money.amount * self._exchange_rate[to_currency], 2)
+
+        elif to_currency == self._pivot_currency and money.currency in self._exchange_rate.keys():
+            converted_amount = round(money.amount / self._exchange_rate[money.currency], None)
+
+        else:
+            raise MissingExchangeRateError(money.currency, to_currency)
+
+        return Money(converted_amount, to_currency)
+
+    def xǁBankǁconvert__mutmut_20(self, money: Money, to_currency: Currency) -> Money:
+        """
+        Convertir un objet Money dans une autre monnaie
+        """
+        if money.currency == to_currency:
+            return Money(money.amount, to_currency)
+        
+        if to_currency in self._exchange_rate.keys():
+            converted_amount = round(money.amount * self._exchange_rate[to_currency], 2)
+
+        elif to_currency == self._pivot_currency and money.currency in self._exchange_rate.keys():
+            converted_amount = round(2)
+
+        else:
+            raise MissingExchangeRateError(money.currency, to_currency)
+
+        return Money(converted_amount, to_currency)
+
+    def xǁBankǁconvert__mutmut_21(self, money: Money, to_currency: Currency) -> Money:
+        """
+        Convertir un objet Money dans une autre monnaie
+        """
+        if money.currency == to_currency:
+            return Money(money.amount, to_currency)
+        
+        if to_currency in self._exchange_rate.keys():
+            converted_amount = round(money.amount * self._exchange_rate[to_currency], 2)
+
+        elif to_currency == self._pivot_currency and money.currency in self._exchange_rate.keys():
+            converted_amount = round(money.amount / self._exchange_rate[money.currency], )
+
+        else:
+            raise MissingExchangeRateError(money.currency, to_currency)
+
+        return Money(converted_amount, to_currency)
+
+    def xǁBankǁconvert__mutmut_22(self, money: Money, to_currency: Currency) -> Money:
+        """
+        Convertir un objet Money dans une autre monnaie
+        """
+        if money.currency == to_currency:
+            return Money(money.amount, to_currency)
+        
+        if to_currency in self._exchange_rate.keys():
+            converted_amount = round(money.amount * self._exchange_rate[to_currency], 2)
+
+        elif to_currency == self._pivot_currency and money.currency in self._exchange_rate.keys():
+            converted_amount = round(money.amount * self._exchange_rate[money.currency], 2)
+
+        else:
+            raise MissingExchangeRateError(money.currency, to_currency)
+
+        return Money(converted_amount, to_currency)
+
+    def xǁBankǁconvert__mutmut_23(self, money: Money, to_currency: Currency) -> Money:
+        """
+        Convertir un objet Money dans une autre monnaie
+        """
+        if money.currency == to_currency:
+            return Money(money.amount, to_currency)
+        
+        if to_currency in self._exchange_rate.keys():
+            converted_amount = round(money.amount * self._exchange_rate[to_currency], 2)
+
+        elif to_currency == self._pivot_currency and money.currency in self._exchange_rate.keys():
+            converted_amount = round(money.amount / self._exchange_rate[money.currency], 3)
+
+        else:
+            raise MissingExchangeRateError(money.currency, to_currency)
+
+        return Money(converted_amount, to_currency)
+
+    def xǁBankǁconvert__mutmut_24(self, money: Money, to_currency: Currency) -> Money:
+        """
+        Convertir un objet Money dans une autre monnaie
+        """
+        if money.currency == to_currency:
+            return Money(money.amount, to_currency)
+        
+        if to_currency in self._exchange_rate.keys():
+            converted_amount = round(money.amount * self._exchange_rate[to_currency], 2)
+
+        elif to_currency == self._pivot_currency and money.currency in self._exchange_rate.keys():
+            converted_amount = round(money.amount / self._exchange_rate[money.currency], 2)
+
+        else:
+            raise MissingExchangeRateError(None, to_currency)
+
+        return Money(converted_amount, to_currency)
+
+    def xǁBankǁconvert__mutmut_25(self, money: Money, to_currency: Currency) -> Money:
+        """
+        Convertir un objet Money dans une autre monnaie
+        """
+        if money.currency == to_currency:
+            return Money(money.amount, to_currency)
+        
+        if to_currency in self._exchange_rate.keys():
+            converted_amount = round(money.amount * self._exchange_rate[to_currency], 2)
+
+        elif to_currency == self._pivot_currency and money.currency in self._exchange_rate.keys():
+            converted_amount = round(money.amount / self._exchange_rate[money.currency], 2)
+
+        else:
+            raise MissingExchangeRateError(money.currency, None)
+
+        return Money(converted_amount, to_currency)
+
+    def xǁBankǁconvert__mutmut_26(self, money: Money, to_currency: Currency) -> Money:
+        """
+        Convertir un objet Money dans une autre monnaie
+        """
+        if money.currency == to_currency:
+            return Money(money.amount, to_currency)
+        
+        if to_currency in self._exchange_rate.keys():
+            converted_amount = round(money.amount * self._exchange_rate[to_currency], 2)
+
+        elif to_currency == self._pivot_currency and money.currency in self._exchange_rate.keys():
+            converted_amount = round(money.amount / self._exchange_rate[money.currency], 2)
+
+        else:
+            raise MissingExchangeRateError(to_currency)
+
+        return Money(converted_amount, to_currency)
+
+    def xǁBankǁconvert__mutmut_27(self, money: Money, to_currency: Currency) -> Money:
+        """
+        Convertir un objet Money dans une autre monnaie
+        """
+        if money.currency == to_currency:
+            return Money(money.amount, to_currency)
+        
+        if to_currency in self._exchange_rate.keys():
+            converted_amount = round(money.amount * self._exchange_rate[to_currency], 2)
+
+        elif to_currency == self._pivot_currency and money.currency in self._exchange_rate.keys():
+            converted_amount = round(money.amount / self._exchange_rate[money.currency], 2)
+
+        else:
+            raise MissingExchangeRateError(money.currency, )
+
+        return Money(converted_amount, to_currency)
+
+    def xǁBankǁconvert__mutmut_28(self, money: Money, to_currency: Currency) -> Money:
+        """
+        Convertir un objet Money dans une autre monnaie
+        """
+        if money.currency == to_currency:
+            return Money(money.amount, to_currency)
+        
+        if to_currency in self._exchange_rate.keys():
+            converted_amount = round(money.amount * self._exchange_rate[to_currency], 2)
+
+        elif to_currency == self._pivot_currency and money.currency in self._exchange_rate.keys():
+            converted_amount = round(money.amount / self._exchange_rate[money.currency], 2)
+
+        else:
+            raise MissingExchangeRateError(money.currency, to_currency)
+
+        return Money(None, to_currency)
+
+    def xǁBankǁconvert__mutmut_29(self, money: Money, to_currency: Currency) -> Money:
+        """
+        Convertir un objet Money dans une autre monnaie
+        """
+        if money.currency == to_currency:
+            return Money(money.amount, to_currency)
+        
+        if to_currency in self._exchange_rate.keys():
+            converted_amount = round(money.amount * self._exchange_rate[to_currency], 2)
+
+        elif to_currency == self._pivot_currency and money.currency in self._exchange_rate.keys():
+            converted_amount = round(money.amount / self._exchange_rate[money.currency], 2)
+
+        else:
+            raise MissingExchangeRateError(money.currency, to_currency)
+
+        return Money(converted_amount, None)
+
+    def xǁBankǁconvert__mutmut_30(self, money: Money, to_currency: Currency) -> Money:
+        """
+        Convertir un objet Money dans une autre monnaie
+        """
+        if money.currency == to_currency:
+            return Money(money.amount, to_currency)
+        
+        if to_currency in self._exchange_rate.keys():
+            converted_amount = round(money.amount * self._exchange_rate[to_currency], 2)
+
+        elif to_currency == self._pivot_currency and money.currency in self._exchange_rate.keys():
+            converted_amount = round(money.amount / self._exchange_rate[money.currency], 2)
+
+        else:
+            raise MissingExchangeRateError(money.currency, to_currency)
+
+        return Money(to_currency)
+
+    def xǁBankǁconvert__mutmut_31(self, money: Money, to_currency: Currency) -> Money:
+        """
+        Convertir un objet Money dans une autre monnaie
+        """
+        if money.currency == to_currency:
+            return Money(money.amount, to_currency)
+        
+        if to_currency in self._exchange_rate.keys():
+            converted_amount = round(money.amount * self._exchange_rate[to_currency], 2)
+
+        elif to_currency == self._pivot_currency and money.currency in self._exchange_rate.keys():
+            converted_amount = round(money.amount / self._exchange_rate[money.currency], 2)
+
+        else:
+            raise MissingExchangeRateError(money.currency, to_currency)
+
         return Money(converted_amount, )
     
     xǁBankǁconvert__mutmut_mutants : ClassVar[MutantDict] = { # type: ignore
@@ -410,6 +841,21 @@ class Bank:
         'xǁBankǁconvert__mutmut_13': xǁBankǁconvert__mutmut_13, 
         'xǁBankǁconvert__mutmut_14': xǁBankǁconvert__mutmut_14, 
         'xǁBankǁconvert__mutmut_15': xǁBankǁconvert__mutmut_15, 
-        'xǁBankǁconvert__mutmut_16': xǁBankǁconvert__mutmut_16
+        'xǁBankǁconvert__mutmut_16': xǁBankǁconvert__mutmut_16, 
+        'xǁBankǁconvert__mutmut_17': xǁBankǁconvert__mutmut_17, 
+        'xǁBankǁconvert__mutmut_18': xǁBankǁconvert__mutmut_18, 
+        'xǁBankǁconvert__mutmut_19': xǁBankǁconvert__mutmut_19, 
+        'xǁBankǁconvert__mutmut_20': xǁBankǁconvert__mutmut_20, 
+        'xǁBankǁconvert__mutmut_21': xǁBankǁconvert__mutmut_21, 
+        'xǁBankǁconvert__mutmut_22': xǁBankǁconvert__mutmut_22, 
+        'xǁBankǁconvert__mutmut_23': xǁBankǁconvert__mutmut_23, 
+        'xǁBankǁconvert__mutmut_24': xǁBankǁconvert__mutmut_24, 
+        'xǁBankǁconvert__mutmut_25': xǁBankǁconvert__mutmut_25, 
+        'xǁBankǁconvert__mutmut_26': xǁBankǁconvert__mutmut_26, 
+        'xǁBankǁconvert__mutmut_27': xǁBankǁconvert__mutmut_27, 
+        'xǁBankǁconvert__mutmut_28': xǁBankǁconvert__mutmut_28, 
+        'xǁBankǁconvert__mutmut_29': xǁBankǁconvert__mutmut_29, 
+        'xǁBankǁconvert__mutmut_30': xǁBankǁconvert__mutmut_30, 
+        'xǁBankǁconvert__mutmut_31': xǁBankǁconvert__mutmut_31
     }
     xǁBankǁconvert__mutmut_orig.__name__ = 'xǁBankǁconvert'

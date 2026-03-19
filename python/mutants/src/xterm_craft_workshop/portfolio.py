@@ -56,168 +56,6 @@ class Portfolio:
     }
     xǁPortfolioǁ__init____mutmut_orig.__name__ = 'xǁPortfolioǁ__init__'
 
-    def evaluate(self, bank: Bank, currency: Currency) -> float:
-        args = [bank, currency]# type: ignore
-        kwargs = {}# type: ignore
-        return _mutmut_trampoline(object.__getattribute__(self, 'xǁPortfolioǁevaluate__mutmut_orig'), object.__getattribute__(self, 'xǁPortfolioǁevaluate__mutmut_mutants'), args, kwargs, self)
-
-    def xǁPortfolioǁevaluate__mutmut_orig(self, bank: Bank, currency: Currency) -> float:
-        """
-        Évalue le portefeuille dans la monnaie donnée en paramètre et retourne un float
-        """
-        total = Money(0.0, currency)
-        for money in self.monies:
-            converted = bank.convert(money, currency)
-            total = total + converted
-        return total.amount
-
-    def xǁPortfolioǁevaluate__mutmut_1(self, bank: Bank, currency: Currency) -> float:
-        """
-        Évalue le portefeuille dans la monnaie donnée en paramètre et retourne un float
-        """
-        total = None
-        for money in self.monies:
-            converted = bank.convert(money, currency)
-            total = total + converted
-        return total.amount
-
-    def xǁPortfolioǁevaluate__mutmut_2(self, bank: Bank, currency: Currency) -> float:
-        """
-        Évalue le portefeuille dans la monnaie donnée en paramètre et retourne un float
-        """
-        total = Money(None, currency)
-        for money in self.monies:
-            converted = bank.convert(money, currency)
-            total = total + converted
-        return total.amount
-
-    def xǁPortfolioǁevaluate__mutmut_3(self, bank: Bank, currency: Currency) -> float:
-        """
-        Évalue le portefeuille dans la monnaie donnée en paramètre et retourne un float
-        """
-        total = Money(0.0, None)
-        for money in self.monies:
-            converted = bank.convert(money, currency)
-            total = total + converted
-        return total.amount
-
-    def xǁPortfolioǁevaluate__mutmut_4(self, bank: Bank, currency: Currency) -> float:
-        """
-        Évalue le portefeuille dans la monnaie donnée en paramètre et retourne un float
-        """
-        total = Money(currency)
-        for money in self.monies:
-            converted = bank.convert(money, currency)
-            total = total + converted
-        return total.amount
-
-    def xǁPortfolioǁevaluate__mutmut_5(self, bank: Bank, currency: Currency) -> float:
-        """
-        Évalue le portefeuille dans la monnaie donnée en paramètre et retourne un float
-        """
-        total = Money(0.0, )
-        for money in self.monies:
-            converted = bank.convert(money, currency)
-            total = total + converted
-        return total.amount
-
-    def xǁPortfolioǁevaluate__mutmut_6(self, bank: Bank, currency: Currency) -> float:
-        """
-        Évalue le portefeuille dans la monnaie donnée en paramètre et retourne un float
-        """
-        total = Money(1.0, currency)
-        for money in self.monies:
-            converted = bank.convert(money, currency)
-            total = total + converted
-        return total.amount
-
-    def xǁPortfolioǁevaluate__mutmut_7(self, bank: Bank, currency: Currency) -> float:
-        """
-        Évalue le portefeuille dans la monnaie donnée en paramètre et retourne un float
-        """
-        total = Money(0.0, currency)
-        for money in self.monies:
-            converted = None
-            total = total + converted
-        return total.amount
-
-    def xǁPortfolioǁevaluate__mutmut_8(self, bank: Bank, currency: Currency) -> float:
-        """
-        Évalue le portefeuille dans la monnaie donnée en paramètre et retourne un float
-        """
-        total = Money(0.0, currency)
-        for money in self.monies:
-            converted = bank.convert(None, currency)
-            total = total + converted
-        return total.amount
-
-    def xǁPortfolioǁevaluate__mutmut_9(self, bank: Bank, currency: Currency) -> float:
-        """
-        Évalue le portefeuille dans la monnaie donnée en paramètre et retourne un float
-        """
-        total = Money(0.0, currency)
-        for money in self.monies:
-            converted = bank.convert(money, None)
-            total = total + converted
-        return total.amount
-
-    def xǁPortfolioǁevaluate__mutmut_10(self, bank: Bank, currency: Currency) -> float:
-        """
-        Évalue le portefeuille dans la monnaie donnée en paramètre et retourne un float
-        """
-        total = Money(0.0, currency)
-        for money in self.monies:
-            converted = bank.convert(currency)
-            total = total + converted
-        return total.amount
-
-    def xǁPortfolioǁevaluate__mutmut_11(self, bank: Bank, currency: Currency) -> float:
-        """
-        Évalue le portefeuille dans la monnaie donnée en paramètre et retourne un float
-        """
-        total = Money(0.0, currency)
-        for money in self.monies:
-            converted = bank.convert(money, )
-            total = total + converted
-        return total.amount
-
-    def xǁPortfolioǁevaluate__mutmut_12(self, bank: Bank, currency: Currency) -> float:
-        """
-        Évalue le portefeuille dans la monnaie donnée en paramètre et retourne un float
-        """
-        total = Money(0.0, currency)
-        for money in self.monies:
-            converted = bank.convert(money, currency)
-            total = None
-        return total.amount
-
-    def xǁPortfolioǁevaluate__mutmut_13(self, bank: Bank, currency: Currency) -> float:
-        """
-        Évalue le portefeuille dans la monnaie donnée en paramètre et retourne un float
-        """
-        total = Money(0.0, currency)
-        for money in self.monies:
-            converted = bank.convert(money, currency)
-            total = total - converted
-        return total.amount
-    
-    xǁPortfolioǁevaluate__mutmut_mutants : ClassVar[MutantDict] = { # type: ignore
-    'xǁPortfolioǁevaluate__mutmut_1': xǁPortfolioǁevaluate__mutmut_1, 
-        'xǁPortfolioǁevaluate__mutmut_2': xǁPortfolioǁevaluate__mutmut_2, 
-        'xǁPortfolioǁevaluate__mutmut_3': xǁPortfolioǁevaluate__mutmut_3, 
-        'xǁPortfolioǁevaluate__mutmut_4': xǁPortfolioǁevaluate__mutmut_4, 
-        'xǁPortfolioǁevaluate__mutmut_5': xǁPortfolioǁevaluate__mutmut_5, 
-        'xǁPortfolioǁevaluate__mutmut_6': xǁPortfolioǁevaluate__mutmut_6, 
-        'xǁPortfolioǁevaluate__mutmut_7': xǁPortfolioǁevaluate__mutmut_7, 
-        'xǁPortfolioǁevaluate__mutmut_8': xǁPortfolioǁevaluate__mutmut_8, 
-        'xǁPortfolioǁevaluate__mutmut_9': xǁPortfolioǁevaluate__mutmut_9, 
-        'xǁPortfolioǁevaluate__mutmut_10': xǁPortfolioǁevaluate__mutmut_10, 
-        'xǁPortfolioǁevaluate__mutmut_11': xǁPortfolioǁevaluate__mutmut_11, 
-        'xǁPortfolioǁevaluate__mutmut_12': xǁPortfolioǁevaluate__mutmut_12, 
-        'xǁPortfolioǁevaluate__mutmut_13': xǁPortfolioǁevaluate__mutmut_13
-    }
-    xǁPortfolioǁevaluate__mutmut_orig.__name__ = 'xǁPortfolioǁevaluate'
-
     def evaluate_money(self, bank: Bank, currency: Currency) -> Money:
         args = [bank, currency]# type: ignore
         kwargs = {}# type: ignore
@@ -227,141 +65,392 @@ class Portfolio:
         """
         Évalue le portefeuille dans la monnaie donnée en paramètre et renvoie un objet Money
         """
-        total = Money(0.0, currency)
+        pivot_currency = bank._pivot_currency
+        total_pivot = Money(0.0, pivot_currency)
         for money in self.monies:
-            converted = bank.convert(money, currency)
-            total = total + converted
-        return total
+            if (money.currency != pivot_currency):
+                converted = bank.convert(money, pivot_currency)
+                total_pivot = total_pivot + converted
+            else:
+                total_pivot = total_pivot + money.amount
+        
+        if (currency == pivot_currency):
+            return total_pivot
+        return bank.convert(total_pivot, currency)
 
     def xǁPortfolioǁevaluate_money__mutmut_1(self, bank: Bank, currency: Currency) -> Money:
         """
         Évalue le portefeuille dans la monnaie donnée en paramètre et renvoie un objet Money
         """
-        total = None
+        pivot_currency = None
+        total_pivot = Money(0.0, pivot_currency)
         for money in self.monies:
-            converted = bank.convert(money, currency)
-            total = total + converted
-        return total
+            if (money.currency != pivot_currency):
+                converted = bank.convert(money, pivot_currency)
+                total_pivot = total_pivot + converted
+            else:
+                total_pivot = total_pivot + money.amount
+        
+        if (currency == pivot_currency):
+            return total_pivot
+        return bank.convert(total_pivot, currency)
 
     def xǁPortfolioǁevaluate_money__mutmut_2(self, bank: Bank, currency: Currency) -> Money:
         """
         Évalue le portefeuille dans la monnaie donnée en paramètre et renvoie un objet Money
         """
-        total = Money(None, currency)
+        pivot_currency = bank._pivot_currency
+        total_pivot = None
         for money in self.monies:
-            converted = bank.convert(money, currency)
-            total = total + converted
-        return total
+            if (money.currency != pivot_currency):
+                converted = bank.convert(money, pivot_currency)
+                total_pivot = total_pivot + converted
+            else:
+                total_pivot = total_pivot + money.amount
+        
+        if (currency == pivot_currency):
+            return total_pivot
+        return bank.convert(total_pivot, currency)
 
     def xǁPortfolioǁevaluate_money__mutmut_3(self, bank: Bank, currency: Currency) -> Money:
         """
         Évalue le portefeuille dans la monnaie donnée en paramètre et renvoie un objet Money
         """
-        total = Money(0.0, None)
+        pivot_currency = bank._pivot_currency
+        total_pivot = Money(None, pivot_currency)
         for money in self.monies:
-            converted = bank.convert(money, currency)
-            total = total + converted
-        return total
+            if (money.currency != pivot_currency):
+                converted = bank.convert(money, pivot_currency)
+                total_pivot = total_pivot + converted
+            else:
+                total_pivot = total_pivot + money.amount
+        
+        if (currency == pivot_currency):
+            return total_pivot
+        return bank.convert(total_pivot, currency)
 
     def xǁPortfolioǁevaluate_money__mutmut_4(self, bank: Bank, currency: Currency) -> Money:
         """
         Évalue le portefeuille dans la monnaie donnée en paramètre et renvoie un objet Money
         """
-        total = Money(currency)
+        pivot_currency = bank._pivot_currency
+        total_pivot = Money(0.0, None)
         for money in self.monies:
-            converted = bank.convert(money, currency)
-            total = total + converted
-        return total
+            if (money.currency != pivot_currency):
+                converted = bank.convert(money, pivot_currency)
+                total_pivot = total_pivot + converted
+            else:
+                total_pivot = total_pivot + money.amount
+        
+        if (currency == pivot_currency):
+            return total_pivot
+        return bank.convert(total_pivot, currency)
 
     def xǁPortfolioǁevaluate_money__mutmut_5(self, bank: Bank, currency: Currency) -> Money:
         """
         Évalue le portefeuille dans la monnaie donnée en paramètre et renvoie un objet Money
         """
-        total = Money(0.0, )
+        pivot_currency = bank._pivot_currency
+        total_pivot = Money(pivot_currency)
         for money in self.monies:
-            converted = bank.convert(money, currency)
-            total = total + converted
-        return total
+            if (money.currency != pivot_currency):
+                converted = bank.convert(money, pivot_currency)
+                total_pivot = total_pivot + converted
+            else:
+                total_pivot = total_pivot + money.amount
+        
+        if (currency == pivot_currency):
+            return total_pivot
+        return bank.convert(total_pivot, currency)
 
     def xǁPortfolioǁevaluate_money__mutmut_6(self, bank: Bank, currency: Currency) -> Money:
         """
         Évalue le portefeuille dans la monnaie donnée en paramètre et renvoie un objet Money
         """
-        total = Money(1.0, currency)
+        pivot_currency = bank._pivot_currency
+        total_pivot = Money(0.0, )
         for money in self.monies:
-            converted = bank.convert(money, currency)
-            total = total + converted
-        return total
+            if (money.currency != pivot_currency):
+                converted = bank.convert(money, pivot_currency)
+                total_pivot = total_pivot + converted
+            else:
+                total_pivot = total_pivot + money.amount
+        
+        if (currency == pivot_currency):
+            return total_pivot
+        return bank.convert(total_pivot, currency)
 
     def xǁPortfolioǁevaluate_money__mutmut_7(self, bank: Bank, currency: Currency) -> Money:
         """
         Évalue le portefeuille dans la monnaie donnée en paramètre et renvoie un objet Money
         """
-        total = Money(0.0, currency)
+        pivot_currency = bank._pivot_currency
+        total_pivot = Money(1.0, pivot_currency)
         for money in self.monies:
-            converted = None
-            total = total + converted
-        return total
+            if (money.currency != pivot_currency):
+                converted = bank.convert(money, pivot_currency)
+                total_pivot = total_pivot + converted
+            else:
+                total_pivot = total_pivot + money.amount
+        
+        if (currency == pivot_currency):
+            return total_pivot
+        return bank.convert(total_pivot, currency)
 
     def xǁPortfolioǁevaluate_money__mutmut_8(self, bank: Bank, currency: Currency) -> Money:
         """
         Évalue le portefeuille dans la monnaie donnée en paramètre et renvoie un objet Money
         """
-        total = Money(0.0, currency)
+        pivot_currency = bank._pivot_currency
+        total_pivot = Money(0.0, pivot_currency)
         for money in self.monies:
-            converted = bank.convert(None, currency)
-            total = total + converted
-        return total
+            if (money.currency == pivot_currency):
+                converted = bank.convert(money, pivot_currency)
+                total_pivot = total_pivot + converted
+            else:
+                total_pivot = total_pivot + money.amount
+        
+        if (currency == pivot_currency):
+            return total_pivot
+        return bank.convert(total_pivot, currency)
 
     def xǁPortfolioǁevaluate_money__mutmut_9(self, bank: Bank, currency: Currency) -> Money:
         """
         Évalue le portefeuille dans la monnaie donnée en paramètre et renvoie un objet Money
         """
-        total = Money(0.0, currency)
+        pivot_currency = bank._pivot_currency
+        total_pivot = Money(0.0, pivot_currency)
         for money in self.monies:
-            converted = bank.convert(money, None)
-            total = total + converted
-        return total
+            if (money.currency != pivot_currency):
+                converted = None
+                total_pivot = total_pivot + converted
+            else:
+                total_pivot = total_pivot + money.amount
+        
+        if (currency == pivot_currency):
+            return total_pivot
+        return bank.convert(total_pivot, currency)
 
     def xǁPortfolioǁevaluate_money__mutmut_10(self, bank: Bank, currency: Currency) -> Money:
         """
         Évalue le portefeuille dans la monnaie donnée en paramètre et renvoie un objet Money
         """
-        total = Money(0.0, currency)
+        pivot_currency = bank._pivot_currency
+        total_pivot = Money(0.0, pivot_currency)
         for money in self.monies:
-            converted = bank.convert(currency)
-            total = total + converted
-        return total
+            if (money.currency != pivot_currency):
+                converted = bank.convert(None, pivot_currency)
+                total_pivot = total_pivot + converted
+            else:
+                total_pivot = total_pivot + money.amount
+        
+        if (currency == pivot_currency):
+            return total_pivot
+        return bank.convert(total_pivot, currency)
 
     def xǁPortfolioǁevaluate_money__mutmut_11(self, bank: Bank, currency: Currency) -> Money:
         """
         Évalue le portefeuille dans la monnaie donnée en paramètre et renvoie un objet Money
         """
-        total = Money(0.0, currency)
+        pivot_currency = bank._pivot_currency
+        total_pivot = Money(0.0, pivot_currency)
         for money in self.monies:
-            converted = bank.convert(money, )
-            total = total + converted
-        return total
+            if (money.currency != pivot_currency):
+                converted = bank.convert(money, None)
+                total_pivot = total_pivot + converted
+            else:
+                total_pivot = total_pivot + money.amount
+        
+        if (currency == pivot_currency):
+            return total_pivot
+        return bank.convert(total_pivot, currency)
 
     def xǁPortfolioǁevaluate_money__mutmut_12(self, bank: Bank, currency: Currency) -> Money:
         """
         Évalue le portefeuille dans la monnaie donnée en paramètre et renvoie un objet Money
         """
-        total = Money(0.0, currency)
+        pivot_currency = bank._pivot_currency
+        total_pivot = Money(0.0, pivot_currency)
         for money in self.monies:
-            converted = bank.convert(money, currency)
-            total = None
-        return total
+            if (money.currency != pivot_currency):
+                converted = bank.convert(pivot_currency)
+                total_pivot = total_pivot + converted
+            else:
+                total_pivot = total_pivot + money.amount
+        
+        if (currency == pivot_currency):
+            return total_pivot
+        return bank.convert(total_pivot, currency)
 
     def xǁPortfolioǁevaluate_money__mutmut_13(self, bank: Bank, currency: Currency) -> Money:
         """
         Évalue le portefeuille dans la monnaie donnée en paramètre et renvoie un objet Money
         """
-        total = Money(0.0, currency)
+        pivot_currency = bank._pivot_currency
+        total_pivot = Money(0.0, pivot_currency)
         for money in self.monies:
-            converted = bank.convert(money, currency)
-            total = total - converted
-        return total
+            if (money.currency != pivot_currency):
+                converted = bank.convert(money, )
+                total_pivot = total_pivot + converted
+            else:
+                total_pivot = total_pivot + money.amount
+        
+        if (currency == pivot_currency):
+            return total_pivot
+        return bank.convert(total_pivot, currency)
+
+    def xǁPortfolioǁevaluate_money__mutmut_14(self, bank: Bank, currency: Currency) -> Money:
+        """
+        Évalue le portefeuille dans la monnaie donnée en paramètre et renvoie un objet Money
+        """
+        pivot_currency = bank._pivot_currency
+        total_pivot = Money(0.0, pivot_currency)
+        for money in self.monies:
+            if (money.currency != pivot_currency):
+                converted = bank.convert(money, pivot_currency)
+                total_pivot = None
+            else:
+                total_pivot = total_pivot + money.amount
+        
+        if (currency == pivot_currency):
+            return total_pivot
+        return bank.convert(total_pivot, currency)
+
+    def xǁPortfolioǁevaluate_money__mutmut_15(self, bank: Bank, currency: Currency) -> Money:
+        """
+        Évalue le portefeuille dans la monnaie donnée en paramètre et renvoie un objet Money
+        """
+        pivot_currency = bank._pivot_currency
+        total_pivot = Money(0.0, pivot_currency)
+        for money in self.monies:
+            if (money.currency != pivot_currency):
+                converted = bank.convert(money, pivot_currency)
+                total_pivot = total_pivot - converted
+            else:
+                total_pivot = total_pivot + money.amount
+        
+        if (currency == pivot_currency):
+            return total_pivot
+        return bank.convert(total_pivot, currency)
+
+    def xǁPortfolioǁevaluate_money__mutmut_16(self, bank: Bank, currency: Currency) -> Money:
+        """
+        Évalue le portefeuille dans la monnaie donnée en paramètre et renvoie un objet Money
+        """
+        pivot_currency = bank._pivot_currency
+        total_pivot = Money(0.0, pivot_currency)
+        for money in self.monies:
+            if (money.currency != pivot_currency):
+                converted = bank.convert(money, pivot_currency)
+                total_pivot = total_pivot + converted
+            else:
+                total_pivot = None
+        
+        if (currency == pivot_currency):
+            return total_pivot
+        return bank.convert(total_pivot, currency)
+
+    def xǁPortfolioǁevaluate_money__mutmut_17(self, bank: Bank, currency: Currency) -> Money:
+        """
+        Évalue le portefeuille dans la monnaie donnée en paramètre et renvoie un objet Money
+        """
+        pivot_currency = bank._pivot_currency
+        total_pivot = Money(0.0, pivot_currency)
+        for money in self.monies:
+            if (money.currency != pivot_currency):
+                converted = bank.convert(money, pivot_currency)
+                total_pivot = total_pivot + converted
+            else:
+                total_pivot = total_pivot - money.amount
+        
+        if (currency == pivot_currency):
+            return total_pivot
+        return bank.convert(total_pivot, currency)
+
+    def xǁPortfolioǁevaluate_money__mutmut_18(self, bank: Bank, currency: Currency) -> Money:
+        """
+        Évalue le portefeuille dans la monnaie donnée en paramètre et renvoie un objet Money
+        """
+        pivot_currency = bank._pivot_currency
+        total_pivot = Money(0.0, pivot_currency)
+        for money in self.monies:
+            if (money.currency != pivot_currency):
+                converted = bank.convert(money, pivot_currency)
+                total_pivot = total_pivot + converted
+            else:
+                total_pivot = total_pivot + money.amount
+        
+        if (currency != pivot_currency):
+            return total_pivot
+        return bank.convert(total_pivot, currency)
+
+    def xǁPortfolioǁevaluate_money__mutmut_19(self, bank: Bank, currency: Currency) -> Money:
+        """
+        Évalue le portefeuille dans la monnaie donnée en paramètre et renvoie un objet Money
+        """
+        pivot_currency = bank._pivot_currency
+        total_pivot = Money(0.0, pivot_currency)
+        for money in self.monies:
+            if (money.currency != pivot_currency):
+                converted = bank.convert(money, pivot_currency)
+                total_pivot = total_pivot + converted
+            else:
+                total_pivot = total_pivot + money.amount
+        
+        if (currency == pivot_currency):
+            return total_pivot
+        return bank.convert(None, currency)
+
+    def xǁPortfolioǁevaluate_money__mutmut_20(self, bank: Bank, currency: Currency) -> Money:
+        """
+        Évalue le portefeuille dans la monnaie donnée en paramètre et renvoie un objet Money
+        """
+        pivot_currency = bank._pivot_currency
+        total_pivot = Money(0.0, pivot_currency)
+        for money in self.monies:
+            if (money.currency != pivot_currency):
+                converted = bank.convert(money, pivot_currency)
+                total_pivot = total_pivot + converted
+            else:
+                total_pivot = total_pivot + money.amount
+        
+        if (currency == pivot_currency):
+            return total_pivot
+        return bank.convert(total_pivot, None)
+
+    def xǁPortfolioǁevaluate_money__mutmut_21(self, bank: Bank, currency: Currency) -> Money:
+        """
+        Évalue le portefeuille dans la monnaie donnée en paramètre et renvoie un objet Money
+        """
+        pivot_currency = bank._pivot_currency
+        total_pivot = Money(0.0, pivot_currency)
+        for money in self.monies:
+            if (money.currency != pivot_currency):
+                converted = bank.convert(money, pivot_currency)
+                total_pivot = total_pivot + converted
+            else:
+                total_pivot = total_pivot + money.amount
+        
+        if (currency == pivot_currency):
+            return total_pivot
+        return bank.convert(currency)
+
+    def xǁPortfolioǁevaluate_money__mutmut_22(self, bank: Bank, currency: Currency) -> Money:
+        """
+        Évalue le portefeuille dans la monnaie donnée en paramètre et renvoie un objet Money
+        """
+        pivot_currency = bank._pivot_currency
+        total_pivot = Money(0.0, pivot_currency)
+        for money in self.monies:
+            if (money.currency != pivot_currency):
+                converted = bank.convert(money, pivot_currency)
+                total_pivot = total_pivot + converted
+            else:
+                total_pivot = total_pivot + money.amount
+        
+        if (currency == pivot_currency):
+            return total_pivot
+        return bank.convert(total_pivot, )
     
     xǁPortfolioǁevaluate_money__mutmut_mutants : ClassVar[MutantDict] = { # type: ignore
     'xǁPortfolioǁevaluate_money__mutmut_1': xǁPortfolioǁevaluate_money__mutmut_1, 
@@ -376,59 +465,18 @@ class Portfolio:
         'xǁPortfolioǁevaluate_money__mutmut_10': xǁPortfolioǁevaluate_money__mutmut_10, 
         'xǁPortfolioǁevaluate_money__mutmut_11': xǁPortfolioǁevaluate_money__mutmut_11, 
         'xǁPortfolioǁevaluate_money__mutmut_12': xǁPortfolioǁevaluate_money__mutmut_12, 
-        'xǁPortfolioǁevaluate_money__mutmut_13': xǁPortfolioǁevaluate_money__mutmut_13
+        'xǁPortfolioǁevaluate_money__mutmut_13': xǁPortfolioǁevaluate_money__mutmut_13, 
+        'xǁPortfolioǁevaluate_money__mutmut_14': xǁPortfolioǁevaluate_money__mutmut_14, 
+        'xǁPortfolioǁevaluate_money__mutmut_15': xǁPortfolioǁevaluate_money__mutmut_15, 
+        'xǁPortfolioǁevaluate_money__mutmut_16': xǁPortfolioǁevaluate_money__mutmut_16, 
+        'xǁPortfolioǁevaluate_money__mutmut_17': xǁPortfolioǁevaluate_money__mutmut_17, 
+        'xǁPortfolioǁevaluate_money__mutmut_18': xǁPortfolioǁevaluate_money__mutmut_18, 
+        'xǁPortfolioǁevaluate_money__mutmut_19': xǁPortfolioǁevaluate_money__mutmut_19, 
+        'xǁPortfolioǁevaluate_money__mutmut_20': xǁPortfolioǁevaluate_money__mutmut_20, 
+        'xǁPortfolioǁevaluate_money__mutmut_21': xǁPortfolioǁevaluate_money__mutmut_21, 
+        'xǁPortfolioǁevaluate_money__mutmut_22': xǁPortfolioǁevaluate_money__mutmut_22
     }
     xǁPortfolioǁevaluate_money__mutmut_orig.__name__ = 'xǁPortfolioǁevaluate_money'
-
-    def add(self, amount: float, currency: Currency) -> None:
-        args = [amount, currency]# type: ignore
-        kwargs = {}# type: ignore
-        return _mutmut_trampoline(object.__getattribute__(self, 'xǁPortfolioǁadd__mutmut_orig'), object.__getattribute__(self, 'xǁPortfolioǁadd__mutmut_mutants'), args, kwargs, self)
-
-    def xǁPortfolioǁadd__mutmut_orig(self, amount: float, currency: Currency) -> None:
-        """
-        Ajoute une somme d'argent dans une monnaie donnée au portefeuille
-        """
-        self.monies.append(Money(amount, currency))
-
-    def xǁPortfolioǁadd__mutmut_1(self, amount: float, currency: Currency) -> None:
-        """
-        Ajoute une somme d'argent dans une monnaie donnée au portefeuille
-        """
-        self.monies.append(None)
-
-    def xǁPortfolioǁadd__mutmut_2(self, amount: float, currency: Currency) -> None:
-        """
-        Ajoute une somme d'argent dans une monnaie donnée au portefeuille
-        """
-        self.monies.append(Money(None, currency))
-
-    def xǁPortfolioǁadd__mutmut_3(self, amount: float, currency: Currency) -> None:
-        """
-        Ajoute une somme d'argent dans une monnaie donnée au portefeuille
-        """
-        self.monies.append(Money(amount, None))
-
-    def xǁPortfolioǁadd__mutmut_4(self, amount: float, currency: Currency) -> None:
-        """
-        Ajoute une somme d'argent dans une monnaie donnée au portefeuille
-        """
-        self.monies.append(Money(currency))
-
-    def xǁPortfolioǁadd__mutmut_5(self, amount: float, currency: Currency) -> None:
-        """
-        Ajoute une somme d'argent dans une monnaie donnée au portefeuille
-        """
-        self.monies.append(Money(amount, ))
-    
-    xǁPortfolioǁadd__mutmut_mutants : ClassVar[MutantDict] = { # type: ignore
-    'xǁPortfolioǁadd__mutmut_1': xǁPortfolioǁadd__mutmut_1, 
-        'xǁPortfolioǁadd__mutmut_2': xǁPortfolioǁadd__mutmut_2, 
-        'xǁPortfolioǁadd__mutmut_3': xǁPortfolioǁadd__mutmut_3, 
-        'xǁPortfolioǁadd__mutmut_4': xǁPortfolioǁadd__mutmut_4, 
-        'xǁPortfolioǁadd__mutmut_5': xǁPortfolioǁadd__mutmut_5
-    }
-    xǁPortfolioǁadd__mutmut_orig.__name__ = 'xǁPortfolioǁadd'
 
     def add_money(self, money: Money) -> None:
         args = [money]# type: ignore
