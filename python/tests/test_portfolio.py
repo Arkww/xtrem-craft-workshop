@@ -75,7 +75,7 @@ class TestPortfolio:
         portfolio = Portfolio()
         portfolio.add_money(Money(10.0, Currency.USD))
         portfolio.add_money(Money(20.0, Currency.EUR))
-        bank = BankBuilder().with_pivot_currency(Currency.EUR).with_rate(Currency.USD, Currency.EUR, 0.8).build()
+        bank = BankBuilder().with_pivot_currency(Currency.USD).with_rate(Currency.EUR, 0.8).build()
         
         # ACT
         result = portfolio.evaluate_money(bank, Currency.EUR)
@@ -92,16 +92,17 @@ class TestPortfolio:
         
         bank = BankBuilder()\
             .with_pivot_currency(Currency.EUR)\
-            .with_rate(Currency.USD, 1.2)\
+            .with_rate(Currency.USD, 2)\
             .with_rate(Currency.KRW, 1000)\
             .build()
         
         # ACT
-        result = portfolio.evaluate_money(bank, Currency.KRW)
+        result = portfolio.evaluate_money(bank, Currency.EUR)
         
         # ASSERT
-        expected = 12_000 + 20_000 + 1000
-        assert result == Money(expected, Currency.KRW)
+        expected = 20 + 5 + 1
+        assert abs(result.amount - expected) < 1e-10
+        assert result.currency == Currency.EUR
 
     def test_evaluate_with_missing_rate_raises(self):
         # ARRANGE
