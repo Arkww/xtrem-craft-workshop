@@ -10,7 +10,7 @@ from tests.bank_builder import BankBuilder
 class TestBank:
     def test_create_bank_with_exchange_rate(self):
         # ARRANGE
-        bank = BankBuilder().with_rate(Currency.EUR, Currency.USD, 1.2).build()
+        bank = BankBuilder().with_pivot_currency(Currency.EUR).with_rate(Currency.USD, 1.2).build()
         money = Money(10.0, Currency.EUR)
         
         # ACT
@@ -21,7 +21,7 @@ class TestBank:
 
     def test_convert_same_currency(self):
         # ARRANGE
-        bank = BankBuilder().with_rate(Currency.EUR, Currency.USD, 1.2).build()
+        bank = BankBuilder().with_pivot_currency(Currency.EUR).with_rate(Currency.USD, 1.2).build()
         money = Money(10.0, Currency.EUR)
         
         # ACT
@@ -32,8 +32,8 @@ class TestBank:
 
     def test_convert_with_different_rate(self):
         # ARRANGE
-        bank1 = BankBuilder().with_rate(Currency.EUR, Currency.USD, 1.2).build()
-        bank2 = BankBuilder().with_rate(Currency.EUR, Currency.USD, 1.3).build()
+        bank1 = BankBuilder().with_pivot_currency(Currency.EUR).with_rate(Currency.USD, 1.2).build()
+        bank2 = BankBuilder().with_pivot_currency(Currency.EUR).with_rate(Currency.USD, 1.3).build()
         money = Money(10.0, Currency.EUR)
         
         # ACT
@@ -46,7 +46,7 @@ class TestBank:
 
     def test_add_exchange_rate(self):
         # ARRANGE
-        bank = BankBuilder().build()
+        bank = BankBuilder().with_pivot_currency(Currency.EUR).build()
         money = Money(10.0, Currency.EUR)
         
         # ACT
