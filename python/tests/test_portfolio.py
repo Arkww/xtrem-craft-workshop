@@ -114,7 +114,7 @@ class TestPortfolio:
         # ACT & ASSERT
         with pytest.raises(MissingExchangeRateError) as exc:
             portfolio.evaluate_money(bank, Currency.USD)
-        assert str(exc.value) == "La banque ne propose pas cet échange : KRW->USD"
+        assert str(exc.value) == "La banque ne propose pas cet échange : KRW->EUR"
 
     def test_evaluate_with_missing_rate_for_specific_conversion_raises(self):
         # ARRANGE
@@ -127,4 +127,4 @@ class TestPortfolio:
         # ACT & ASSERT
         with pytest.raises(MissingExchangeRateError) as exc:
             portfolio.evaluate_money(bank, Currency.USD)
-        assert str(exc.value) == "La banque ne propose pas cet échange : EUR->USD"
+        assert str(exc.value) == "La banque ne propose pas cet échange : USD->EUR"

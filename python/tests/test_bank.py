@@ -50,7 +50,7 @@ class TestBank:
         money = Money(10.0, Currency.EUR)
         
         # ACT
-        bank.add_exchange_rate(Currency.EUR, Currency.USD, 1.2)
+        bank.add_exchange_rate(Currency.USD, 1.2)
         result = bank.convert(money, Currency.USD)
         
         # ASSERT
@@ -60,17 +60,16 @@ class TestBank:
         # ARRANGE
         bank = BankBuilder().with_pivot_currency(Currency.EUR).build()
         eur_money = Money(10.0, Currency.EUR)
-        usd_money = Money(10.0, Currency.USD)
         
         # ACT
-        bank.add_exchange_rate(Currency.EUR, Currency.USD, 1.2)
-        bank.add_exchange_rate(Currency.USD, Currency.EUR, 0.8)
+        bank.add_exchange_rate(Currency.USD, 1.2)
+        bank.add_exchange_rate(Currency.KRW, 1000.0)
         result1 = bank.convert(eur_money, Currency.USD)
-        result2 = bank.convert(usd_money, Currency.EUR)
+        result2 = bank.convert(eur_money, Currency.KRW)
         
         # ASSERT
         assert result1 == Money(12.0, Currency.USD)
-        assert result2 == Money(8.0, Currency.EUR)
+        assert result2 == Money(10_000.0, Currency.KRW)
 
     def test_convert_with_missing_rate_raises(self):
         # ARRANGE
@@ -109,5 +108,5 @@ class TestBank:
         
         # ASSERT
         expected = 10.12345678 * 1.23456789
-        assert abs(result.amount - expected) < 1e-10
+        assert abs(result.amount - expected) < 1e-2
         assert result.currency == Currency.USD

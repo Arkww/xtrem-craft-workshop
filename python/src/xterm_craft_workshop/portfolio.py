@@ -18,11 +18,18 @@ class Portfolio:
         """
         Évalue le portefeuille dans la monnaie donnée en paramètre et renvoie un objet Money
         """
-        total = Money(0.0, currency)
+        pivot_currency = bank._pivot_currency
+        total_pivot = Money(0.0, pivot_currency)
         for money in self.monies:
-            converted = bank.convert(money, currency)
-            total = total + converted
-        return total
+            if (money.currency != pivot_currency):
+                converted = bank.convert(money, pivot_currency)
+                total_pivot = total_pivot + converted
+            else:
+                total_pivot = total_pivot + money.amount
+        
+        if (currency == pivot_currency):
+            return total_pivot
+        return bank.convert(total_pivot, currency)
 
     def add_money(self, money: Money) -> None:
         """
