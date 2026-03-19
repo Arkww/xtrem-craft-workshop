@@ -17,8 +17,8 @@ class Bank:
         """
         assert rate > 0, "Le taux d'échange doit être positif"
         assert to_currency != self._pivot_currency, "Le from_currency doit être différent du pivot_currency"
-        assert to_currency.value not in self._exchange_rate.keys(), "Le taux d'échange existe déjà"
-        self._exchange_rate[to_currency.value] = rate
+        assert to_currency not in self._exchange_rate.keys(), "Le taux d'échange existe déjà"
+        self._exchange_rate[to_currency] = rate
 
     def remove_exchange_rate(self, to_currency: Currency) -> None:
         """
