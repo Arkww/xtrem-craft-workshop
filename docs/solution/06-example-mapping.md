@@ -1,6 +1,6 @@
 # Example Mapping
 
-![Resultat de l'exemple mapping](../img/board.jpg)
+![Resultat de l'exemple mapping](../img/Example_Mapping_Portfolio.jpg)
 
 ## US 1
 

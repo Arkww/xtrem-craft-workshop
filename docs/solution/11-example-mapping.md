@@ -1,6 +1,6 @@
 # Example Mapping
 
-![Resultat de l'exemple mapping](../img/Example_Mapping_devise_pivot.jpg)
+![Resultat de l'exemple mapping](../img/Example_Mapping_Devise_Pivot.jpg)
 
 ## Story 1: Define Pivot Currency
 ```gherkin
@@ -21,7 +21,7 @@ Then la banque est créée avec pour devise pivot USD
 ### Règle Métier: On ne peut pas créer une banque sans devise pivot.
 
 ```gherkin
-Given j'essaie de construire une banque sans devise pivot
+Given je construis une banque sans devise pivot
 Then j'obtiens une exception
 ```
 
@@ -29,7 +29,7 @@ Then j'obtiens une exception
 
 ```gherkin
 Given une banque avec pour devise pivot l'EUR
-When j'essaie de changer la devise pivot
+When je change la devise pivot
 Then l'opération échoue
 ```
 
@@ -45,8 +45,20 @@ So they can be used to evaluate client portfolios
 ### Règle Métier: La banque ne peut avoir que des taux de change depuis la devise pivot vers une autre devise.
 
 ```gherkin
+Given une banque avec pour devise pivot USD et sans taux de change
+When j'ajoute un taux de change de 0.8 de USD vers EUR
+Then le taux de change est ajouté
+```
+
+```gherkin
 Given une banque avec pour devise pivot USD
-When j'essaie d'ajouter un taux de change de 1000 de EUR vers KRW
+When j'ajoute un taux de change de 1000 de EUR vers KRW
+Then j'obtiens une exception
+```
+
+```gherkin
+Given une banque avec pour devise pivot USD
+When j'ajoute un taux de change de 1.2 de EUR vers USD
 Then j'obtiens une exception
 ```
 
@@ -54,24 +66,30 @@ Then j'obtiens une exception
 
 ```gherkin
 Given une banque avec pour devise pivot USD et un taux existant de 0.8 de USD vers EUR
-When j'essaie d'ajouter un nouveau taux de 0.7 de USD vers EUR
+When j'ajoute un nouveau taux de 0.7 de USD vers EUR
 Then j'obtiens une erreur
+```
+
+```gherkin
+Given une banque avec pour devise pivot USD et sans taux de change
+When j'ajoute un taux de change de 0.8 de USD vers EUR
+Then le taux de change est ajouté
 ```
 
 ### Règle Métier: On ne peut pas ajouter un taux de change négatif.
 
 ```gherkin
 Given une banque avec pour devise pivot EUR
-When j'essaie d'ajouter un taux de change de -1 de EUR vers USD
+When j'ajoute un taux de change de -1 de EUR vers USD
 Then j'obtiens une exception
 ```
 
 ### Règle Métier: On ne peut pas ajouter un taux pour la devise pivot vers elle-même.
 
 ```gherkin
-Given une banque a pour devise pivot l'USD
-When on essaie d'ajouter un taux de change de 1 de USD vers USD
-Then on obtient une exception
+Given une banque avec pour devise pivot USD
+When j'ajoute un taux de change de 1 de USD vers USD
+Then j'obtiens une exception
 ```
 
 ## Story 3: Convert a Money
@@ -82,34 +100,26 @@ I want to convert a given amount in currency into another currency
 So it can be used to evaluate client portfolios
 ```
 
-> Que se passe-t-il si nous voulons convertir dans une devise inconnue du système ?
+> Comment obtenir la valeur du portfolio à l'aide de la devise pivot
 
-### Règle Métier: Pour ajouter de l'argent dans un portfolio, la banque doit avoir le taux de cette monnaie vers la monnaie pivot.
+### Règle Métier: Un portfolio peut être évalué que si dans la banque sont définis des taux de change de la devise pivot vers toutes les monnaies présentes dans le portfolio
 
 ```gherkin
-Given une banque avec pour devise pivot USD et un taux d'échange de 900 de USD vers KRW
-When j'essaie d'ajouter 1000 KRW dans mon portfolio
-Then les 1000 KRW sont bien ajoutés à mon portfolio
+Given un portfolio ayant 10 EUR, 20 USD, 30 KRW et une banque avec pour devise pivot USD ayant uniquement un taux de change de USD vers EUR de 0.8
+When j'évalue le portfolio en KRW
+Then j'obtiens une exception
 ```
 
 ```gherkin
-Given une banque avec pour devise pivot USD et sans taux d'échange de USD vers KRW
-When j'essaie d'ajouter 10 KRW dans mon portfolio
-Then j'obtiens une exception
+Given un portfolio ayant 10 EUR, 20 USD, 30 KRW et une banque avec pour devise pivot USD ayant un taux de change de USD vers EUR de 0.8, et un taux de change de USD vers KRW de 800
+When j'évalue le portfolio en KRW
+Then j'obtiens 10 * (1 / 0.8) * 800 + 20 * 800 + 30 = 22430 KRW
 ```
 
 ### Règle Métier: Une conversion de monnaie, suivie de l'opération inverse, doit redonner un résultat à 10⁻³ près du montant original (Round-Tripping).
 
 ```gherkin
 Given une banque avec pour devise pivot l'EUR et un taux de change de 1.2 de EUR vers USD
-When je change 10.01 EUR en USD (j'obtiens 12.012 USD) et que je change cette valeur en EUR
+When je change 10.01 EUR en USD (j'obtiens 1.2 * 10.01 = 12.012 USD) et que je change cette valeur en EUR (12.012 * (1 / 1.2) = 10.01)
 Then j'obtiens une valeur entre 10.0095 et 10.0105 EUR
-```
-
-### Règle Métier: La conversion utilise le taux depuis la devise pivot.
-
-```gherkin
-Given une banque avec pour devise pivot EUR et un taux de change de 1.2 de EUR vers USD
-When je convertis 10 EUR en USD
-Then je reçois 12 USD
 ```
